@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1",
+    "name": "Kanji",
+    "image": "assets/kanji.jpg",
+    "type": "drink",
+    "state": "Punjab",
+    "ingredients": [
+      "Black Carrot",
+      "Mustard Seeds",
+      "Water",
+      "Salt"
+    ],
+    "process": [
+      "Wash and chop black carrots",
+      "Add water and mustard seeds",
+      "Let it ferment for 3 days",
+      "Serve chilled"
+    ],
+    "healthBenefits": [
+      "Improves digestion",
+      "Rich in probiotics",
+      "Boosts immunity"
+    ],
+    "classicalReference": [
+      "Charaka Samhita – Sutra Sthana"
+    ],
+    "analysis": [
+      "Probiotics",
+      "Vitamin A",
+      "Iron"
+    ]
+  }
+]
