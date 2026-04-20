@@ -1,0 +1,98 @@
+[
+  {
+    "id": "1",
+    "name": "Kanji",
+    "image": "assets/kanji.jpg",
+    "type": "drink",
+    "rasa": "amla",
+    "panchabaksha": "paaniyam",
+    "state": "Punjab",
+    "ingredientsList": [
+      "Black Carrot",
+      "Beetroot",
+      "Mustard Seeds",
+      "Red Chili Powder"
+    ],
+    "ingredients": [
+      "500g Black Carrot (or 350 g Carrot + 150 g Beetroot as substitute)",
+      "1½ tsp Mustard Seeds",
+      "½ tsp Red Chili Powder",
+      "1 cup Water",
+      "Salt"
+    ],
+    "process": [
+      "Boil water and let it cool",
+      "Chop the black carrots into middle-sized pieces",
+      "Add chopped black carrots and mustard seeds to the jar",
+      "Add red chili powder and salt to the jar",
+      "Pour the cooled water into the jar and mix well",
+      "Let it ferment for 3 days",
+      "Serve chilled"
+    ],
+    "healthBenefits": [
+      "Improves digestion",
+      "Rich in probiotics",
+      "Boosts immunity"
+    ],
+    "classicalReference": [
+      "Fermented Preparations (Sandhana Kalpana) - Charaka Samhita",
+      "Probiotic Foods - Sushruta Samhita",
+      "Traditional Fermented Foods - Ashtanga Hridaya",
+      "Properties of Mustard (sarshala) - Charaka Samhita"
+    ],
+    "analysis": [
+      "Probiotics",
+      "Vitamin A",
+      "Iron"
+    ]
+  },
+  {
+    "id": "2",
+    "name": "Saktu",
+    "image": "assets/saktu.png",
+    "type": "drink",
+    "rasa": "madhura",
+    "panchabaksha": "choshyam",
+    "state": "Bihar",
+    "ingredientsList": [
+      "Barley",
+      "Jaggery",
+      "Honey",
+      "Cardamom",
+      "Ghee"
+    ],
+    "ingredients": [
+      "2–3 tbsp roasted barley (Yava) flour",
+      "1 glass Water or Milk (room temperature or lukewarm)",
+      "1–2 tsp Jaggery (Gur) or Honey (avoid honey if using hot milk)",
+      "A pinch of Cardamom (Elaichi) Powder",
+      "½ tsp Ghee (optional)"
+    ],
+    "process": [
+      "Place 2–3 tbsp of barley flour into a tall glass or deep bowl. Add only about 2 tablespoons of liquid first.",
+      "Mix the flour and small amount of liquid into a thick, smooth paste – this prevents lumps.",
+      "Add Jaggery and Cardamom powder. If using Ghee, add it now. Mix well.",
+      "Slowly pour in the rest of the water or milk. Whisk vigorously until frothy.",
+      "Note: If using Honey, add it last and only if the liquid is not hot.",
+      "Drink it immediately as barley will settle. Keep a spoon handy to stir while sipping.",
+      "Can be refrigerated and reheated gently."
+    ],
+    "healthBenefits": [
+      "Light and easy to digest",
+      "Improves strength and stamina",
+      "Cooling effect on the body",
+      "Useful for weight management",
+      "Handles excess kapha and pitta doshas",
+      "Sustains energy levels"
+    ],
+    "classicalReference": [
+      "Classification of foods - anna panavidhi - Charaka Samhita",
+      "Dietary Preparations including saktu - Sushruta Samhita"
+    ],
+    "analysis": [
+      "Protein",
+      "Probiotics",
+      "Calcium"
+    ]
+  }
+]
