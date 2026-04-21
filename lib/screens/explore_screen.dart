@@ -5,44 +5,29 @@ import '../services/recipe_service.dart';
 import 'detail_screen.dart';
 
 // ─── Panchabaksha Categories ──────────────────────────────────────────────────
-// These are the 5 classical Ayurvedic food groups based on HOW you consume them
-// (Pancha Bhaksha Paramanna from Ayurvedic texts)
 class _Baksha {
   final String key, label, telugu, description, emoji;
   final Color color;
-  const _Baksha(this.key, this.label, this.telugu, this.description, this.emoji, this.color);
+  final List<Color> gradient;
+  const _Baksha(this.key, this.label, this.telugu, this.description, this.emoji,
+      this.color, this.gradient);
 }
 
 const List<_Baksha> _categories = [
-  _Baksha('all', 'All', 'అన్ని', 'All recipes', '🍽️', Color(0xFF2D2D2D)),
-  _Baksha(
-    'baksham', 'Baksham', 'భక్ష్యం',
-    'Foods you take a bite to eat',
-    '🍪', Color(0xFFFF9F1C),
-  ),
-  _Baksha(
-    'bojyam', 'Bojyam', 'భోజ్యం',
-    'Foods you need to chew to consume',
-    '🍛', Color(0xFF2EC4B6),
-  ),
-  _Baksha(
-    'choshyam', 'Choshyam', 'చోష్యం',
-    'Foods that need slurping or sipping',
-    '🥣', Color(0xFF3A86FF),
-  ),
-  _Baksha(
-    'lehyam', 'Lehyam', 'లేహ్యం',
-    'Items that need licking (e.g. honey)',
-    '🍯', Color(0xFFFFBE0B),
-  ),
-  _Baksha(
-    'paaniyam', 'Paaniyam', 'పానీయం',
-    'Drinks — water, juices, milk',
-    '🥛', Color(0xFF4CC9F0),
-  ),
+  _Baksha('all', 'All Recipes', 'అన్ని', 'Browse everything', '🍽️',
+      Color(0xFFFF6B35), [Color(0xFFFF9A56), Color(0xFFFF6B35)]),
+  _Baksha('baksham', 'Baksham', 'భక్ష్యం', 'Foods you bite & eat', '🍪',
+      Color(0xFFFF9F1C), [Color(0xFFFFBF49), Color(0xFFFF9F1C)]),
+  _Baksha('bojyam', 'Bojyam', 'భోజ్యం', 'Foods you chew', '🍛',
+      Color(0xFF0A9396), [Color(0xFF2EC4B6), Color(0xFF0A9396)]),
+  _Baksha('choshyam', 'Choshyam', 'చోష్యం', 'Slurp & sip foods', '🥣',
+      Color(0xFF0055CC), [Color(0xFF3A86FF), Color(0xFF0055CC)]),
+  _Baksha('lehyam', 'Lehyam', 'లేహ్యం', 'Lickable delights', '🍯',
+      Color(0xFFFF9E00), [Color(0xFFFFBE0B), Color(0xFFFF9E00)]),
+  _Baksha('paaniyam', 'Paaniyam', 'పానీయం', 'Drinks & beverages', '🥛',
+      Color(0xFF0077B6), [Color(0xFF4CC9F0), Color(0xFF0077B6)]),
 ];
 
-// Rasa color for badge on card
 const Map<String, Color> _rasaColors = {
   'madhura': Color(0xFFFFBE0B),
   'amla': Color(0xFFFF6B35),
@@ -59,7 +44,7 @@ const Map<String, String> _rasaLabel = {
   'tikta': 'Bitter',
   'kasaya': 'Astringent',
 };
-// ──────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});
@@ -73,22 +58,21 @@ class _ExploreScreenState extends State<ExploreScreen>
   List<Recipe> _allRecipes = [];
   Set<String> _selectedIngredients = {};
   bool _loading = true;
-  late TabController _tabController;
+  int _selectedCategoryIndex = 0;
   final RecipeService _recipeService = RecipeService();
+  final ScrollController _catScroll = ScrollController();
 
-  List<String> _allIngredients = [];
   Map<String, List<String>> _groupedIngredients = {};
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: _categories.length, vsync: this);
     _loadData();
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    _catScroll.dispose();
     super.dispose();
   }
 
@@ -98,18 +82,17 @@ class _ExploreScreenState extends State<ExploreScreen>
     final grouped = _recipeService.groupIngredientsByCategory(allIngs);
     setState(() {
       _allRecipes = recipes;
-      _allIngredients = allIngs;
       _groupedIngredients = grouped;
       _loading = false;
     });
   }
 
-  List<Recipe> _getFiltered(String categoryKey) {
+  List<Recipe> get _filtered {
+    final cat = _categories[_selectedCategoryIndex];
     return _allRecipes.where((r) {
-      final catMatch = categoryKey == 'all' || r.panchabaksha == categoryKey;
+      final catMatch = cat.key == 'all' || r.panchabaksha == cat.key;
       if (!catMatch) return false;
       if (_selectedIngredients.isEmpty) return true;
-      // AND filter: recipe must contain ALL selected ingredients
       return _selectedIngredients.every(
         (sel) => r.ingredientsList.any(
           (ing) => ing.toLowerCase() == sel.toLowerCase(),
@@ -140,138 +123,256 @@ class _ExploreScreenState extends State<ExploreScreen>
 
   @override
   Widget build(BuildContext context) {
+    final cat = _categories[_selectedCategoryIndex];
+
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF8F0),
-      appBar: AppBar(
-        title: Text('Explore',
-            style: GoogleFonts.poppins(fontWeight: FontWeight.bold)),
-        backgroundColor: const Color(0xFF2EC4B6),
-        foregroundColor: Colors.white,
-        elevation: 0,
-        actions: [
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.filter_list_rounded),
-                onPressed: _openFilterSheet,
-                tooltip: 'Filter by ingredients',
+      backgroundColor: const Color(0xFFF5F0EB),
+      body: _loading
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const CircularProgressIndicator(color: Color(0xFFFF6B35)),
+                  const SizedBox(height: 16),
+                  Text('Loading recipes…',
+                      style: GoogleFonts.poppins(color: Colors.grey)),
+                ],
               ),
-              if (_selectedIngredients.isNotEmpty)
-                Positioned(
-                  right: 8,
-                  top: 8,
-                  child: Container(
-                    width: 16,
-                    height: 16,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xFFFFBE0B),
+            )
+          : CustomScrollView(
+              slivers: [
+                // ── Hero SliverAppBar ─────────────────────────────────────
+                SliverAppBar(
+                  expandedHeight: 190,
+                  pinned: true,
+                  stretch: true,
+                  backgroundColor: cat.gradient.first,
+                  foregroundColor: Colors.white,
+                  elevation: 0,
+                  actions: [
+                    Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.tune_rounded),
+                          onPressed: _openFilterSheet,
+                          tooltip: 'Filter',
+                        ),
+                        if (_selectedIngredients.isNotEmpty)
+                          Positioned(
+                            right: 8,
+                            top: 8,
+                            child: Container(
+                              width: 16,
+                              height: 16,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xFFFFBE0B),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '${_selectedIngredients.length}',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
-                    child: Center(
-                      child: Text(
-                        '${_selectedIngredients.length}',
-                        style: GoogleFonts.poppins(
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                  ],
+                  flexibleSpace: FlexibleSpaceBar(
+                    stretchModes: const [
+                      StretchMode.zoomBackground,
+                      StretchMode.fadeTitle,
+                    ],
+                    background: AnimatedContainer(
+                      duration: const Duration(milliseconds: 350),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: cat.gradient,
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                      ),
+                      child: SafeArea(
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 40),
+                              Row(
+                                children: [
+                                  Text(
+                                    cat.emoji,
+                                    style: const TextStyle(fontSize: 38),
+                                  ),
+                                  const SizedBox(width: 14),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          cat.label,
+                                          style: GoogleFonts.poppins(
+                                            fontSize: 26,
+                                            fontWeight: FontWeight.w800,
+                                            color: Colors.white,
+                                            height: 1.1,
+                                          ),
+                                        ),
+                                        if (cat.key != 'all')
+                                          Text(
+                                            cat.telugu,
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 13,
+                                              color: Colors.white70,
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 6),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.25),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      '${_filtered.length} dishes',
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                cat.description,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 13,
+                                  color: Colors.white.withOpacity(0.85),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-            ],
-          ),
-        ],
-        bottom: TabBar(
-          controller: _tabController,
-          isScrollable: true,
-          indicatorColor: Colors.white,
-          indicatorWeight: 3,
-          labelColor: Colors.white,
-          unselectedLabelColor: Colors.white60,
-          labelStyle: GoogleFonts.poppins(fontWeight: FontWeight.w700, fontSize: 12),
-          unselectedLabelStyle: GoogleFonts.poppins(fontSize: 11),
-          tabAlignment: TabAlignment.start,
-          tabs: _categories.map((c) {
-            return Tab(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('${c.emoji} ${c.label}', style: null),
-                  if (c.key != 'all')
-                    Text(
-                      c.telugu,
-                      style: GoogleFonts.poppins(fontSize: 9, color: Colors.white70),
+                    title: Text(
+                      'Explore',
+                      style: GoogleFonts.poppins(
+                          fontWeight: FontWeight.bold, fontSize: 18),
                     ),
-                ],
-              ),
-            );
-          }).toList(),
-        ),
-      ),
-      body: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                // Category description banner
-                AnimatedBuilder(
-                  animation: _tabController,
-                  builder: (_, __) {
-                    final idx = _tabController.index;
-                    final cat = _categories[idx];
-                    if (cat.key == 'all') return const SizedBox.shrink();
-                    return Container(
-                      color: cat.color.withOpacity(0.1),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 10),
-                      child: Row(
-                        children: [
-                          Text(cat.emoji,
-                              style: const TextStyle(fontSize: 22)),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '${cat.label} (${cat.telugu})',
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w700,
-                                    color: cat.color,
-                                  ),
-                                ),
-                                Text(
-                                  cat.description,
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 11,
-                                    color: Colors.grey[600],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-                // Active filter chips
-                if (_selectedIngredients.isNotEmpty) _buildFilterChips(),
-                // Recipe grid
-                Expanded(
-                  child: TabBarView(
-                    controller: _tabController,
-                    children: _categories.map((c) {
-                      final filtered = _getFiltered(c.key);
-                      return _RecipeGrid(
-                        recipes: filtered,
-                        getCategoryOf: _categoryOf,
-                      );
-                    }).toList(),
+                    centerTitle: false,
                   ),
                 ),
+
+                // ── Category Pills ────────────────────────────────────────
+                SliverToBoxAdapter(
+                  child: Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.fromLTRB(12, 14, 12, 14),
+                    child: SingleChildScrollView(
+                      controller: _catScroll,
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: List.generate(_categories.length, (i) {
+                          final c = _categories[i];
+                          final selected = i == _selectedCategoryIndex;
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: GestureDetector(
+                              onTap: () =>
+                                  setState(() => _selectedCategoryIndex = i),
+                              child: AnimatedContainer(
+                                duration: const Duration(milliseconds: 220),
+                                curve: Curves.easeOut,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16, vertical: 9),
+                                decoration: BoxDecoration(
+                                  gradient: selected
+                                      ? LinearGradient(colors: c.gradient)
+                                      : null,
+                                  color:
+                                      selected ? null : const Color(0xFFF0EDEA),
+                                  borderRadius: BorderRadius.circular(30),
+                                  boxShadow: selected
+                                      ? [
+                                          BoxShadow(
+                                            color: c.color.withOpacity(0.4),
+                                            blurRadius: 10,
+                                            offset: const Offset(0, 4),
+                                          )
+                                        ]
+                                      : [],
+                                ),
+                                child: Row(
+                                  children: [
+                                    Text(c.emoji,
+                                        style: const TextStyle(fontSize: 16)),
+                                    const SizedBox(width: 6),
+                                    Text(
+                                      c.label,
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 13,
+                                        fontWeight: selected
+                                            ? FontWeight.w700
+                                            : FontWeight.w500,
+                                        color: selected
+                                            ? Colors.white
+                                            : Colors.grey[700],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  ),
+                ),
+
+                // ── Active filter chips ────────────────────────────────────
+                if (_selectedIngredients.isNotEmpty)
+                  SliverToBoxAdapter(child: _buildFilterChips()),
+
+                // ── Recipe Grid ───────────────────────────────────────────
+                _filtered.isEmpty
+                    ? SliverFillRemaining(
+                        child: _EmptyState(
+                            categoryKey: _categories[_selectedCategoryIndex].key),
+                      )
+                    : SliverPadding(
+                        padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+                        sliver: SliverGrid(
+                          delegate: SliverChildBuilderDelegate(
+                            (_, i) => _RecipeCard(
+                              recipe: _filtered[i],
+                              category: _categoryOf(_filtered[i]),
+                            ),
+                            childCount: _filtered.length,
+                          ),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 14,
+                            mainAxisSpacing: 14,
+                            childAspectRatio: 0.68,
+                          ),
+                        ),
+                      ),
               ],
             ),
     );
@@ -279,35 +380,34 @@ class _ExploreScreenState extends State<ExploreScreen>
 
   Widget _buildFilterChips() {
     return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
-      child: Row(
+      color: const Color(0xFFFFFCF8),
+      padding: const EdgeInsets.fromLTRB(14, 10, 14, 6),
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 6,
         children: [
-          Expanded(
-            child: Wrap(
-              spacing: 8,
-              runSpacing: 4,
-              children: _selectedIngredients.map((ing) {
-                return Chip(
-                  label: Text(
-                    ing,
-                    style: GoogleFonts.poppins(
-                        fontSize: 11, fontWeight: FontWeight.w600),
-                  ),
-                  backgroundColor: const Color(0xFF2EC4B6).withOpacity(0.12),
-                  deleteIconColor: const Color(0xFF2EC4B6),
-                  side: const BorderSide(color: Color(0xFF2EC4B6), width: 1),
-                  labelPadding: EdgeInsets.zero,
-                  onDeleted: () =>
-                      setState(() => _selectedIngredients.remove(ing)),
-                );
-              }).toList(),
-            ),
-          ),
-          TextButton(
+          ..._selectedIngredients.map((ing) {
+            return Chip(
+              label: Text(ing,
+                  style: GoogleFonts.poppins(
+                      fontSize: 11, fontWeight: FontWeight.w600)),
+              backgroundColor: const Color(0xFFFF6B35).withOpacity(0.1),
+              deleteIconColor: const Color(0xFFFF6B35),
+              side: const BorderSide(color: Color(0xFFFF6B35), width: 1),
+              labelPadding: EdgeInsets.zero,
+              onDeleted: () =>
+                  setState(() => _selectedIngredients.remove(ing)),
+            );
+          }),
+          ActionChip(
+            label: Text('Clear all',
+                style: GoogleFonts.poppins(
+                    fontSize: 11,
+                    color: Colors.red,
+                    fontWeight: FontWeight.w600)),
+            backgroundColor: Colors.red.withOpacity(0.08),
+            side: const BorderSide(color: Colors.red, width: 1),
             onPressed: () => setState(() => _selectedIngredients.clear()),
-            child: Text('Clear',
-                style: GoogleFonts.poppins(color: Colors.red, fontSize: 12)),
           ),
         ],
       ),
@@ -315,7 +415,7 @@ class _ExploreScreenState extends State<ExploreScreen>
   }
 }
 
-// ─── Ingredient Filter Bottom Sheet ──────────────────────────────────────────
+// ─── Ingredient Filter ────────────────────────────────────────────────────────
 class _IngredientFilterSheet extends StatefulWidget {
   final Map<String, List<String>> groupedIngredients;
   final Set<String> selected;
@@ -352,6 +452,18 @@ class _IngredientFilterSheetState extends State<_IngredientFilterSheet> {
     'Other': Color(0xFF6B7280),
   };
 
+  static const Map<String, String> _catEmoji = {
+    'Vegetables': '🥦',
+    'Fruits': '🍊',
+    'Grains & Legumes': '🌾',
+    'Dairy': '🥛',
+    'Spices & Herbs': '🌿',
+    'Flowers': '🌸',
+    'Nuts & Seeds': '🥜',
+    'Sweeteners': '🍯',
+    'Other': '🫙',
+  };
+
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
@@ -381,30 +493,33 @@ class _IngredientFilterSheetState extends State<_IngredientFilterSheet> {
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   children: [
-                    Text(
-                      'Filter by Ingredients',
-                      style: GoogleFonts.poppins(
-                          fontSize: 18, fontWeight: FontWeight.w700),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Filter by Ingredients',
+                          style: GoogleFonts.poppins(
+                              fontSize: 18, fontWeight: FontWeight.w700),
+                        ),
+                        if (_local.isNotEmpty)
+                          Text(
+                            '${_local.length} selected — must contain ALL',
+                            style: GoogleFonts.poppins(
+                                fontSize: 11, color: Colors.grey[500]),
+                          ),
+                      ],
                     ),
                     const Spacer(),
-                    TextButton(
-                      onPressed: () => setState(() => _local.clear()),
-                      child: Text('Clear all',
-                          style: GoogleFonts.poppins(
-                              color: Colors.red, fontSize: 13)),
-                    ),
+                    if (_local.isNotEmpty)
+                      TextButton(
+                        onPressed: () => setState(() => _local.clear()),
+                        child: Text('Clear',
+                            style: GoogleFonts.poppins(
+                                color: Colors.red, fontSize: 13)),
+                      ),
                   ],
                 ),
               ),
-              if (_local.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    '${_local.length} selected — recipes must contain ALL',
-                    style: GoogleFonts.poppins(
-                        fontSize: 12, color: Colors.grey[600]),
-                  ),
-                ),
               const SizedBox(height: 8),
               Expanded(
                 child: ListView(
@@ -413,28 +528,50 @@ class _IngredientFilterSheetState extends State<_IngredientFilterSheet> {
                   children: widget.groupedIngredients.entries.map((entry) {
                     final catColor =
                         _catColors[entry.key] ?? const Color(0xFF6B7280);
+                    final emoji = _catEmoji[entry.key] ?? '🫙';
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(4, 12, 0, 8),
+                          padding: const EdgeInsets.fromLTRB(0, 14, 0, 10),
                           child: Row(
                             children: [
                               Container(
-                                width: 10,
-                                height: 10,
+                                width: 32,
+                                height: 32,
                                 decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: catColor,
+                                  color: catColor.withOpacity(0.15),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Center(
+                                  child: Text(emoji,
+                                      style: const TextStyle(fontSize: 16)),
                                 ),
                               ),
-                              const SizedBox(width: 8),
+                              const SizedBox(width: 10),
                               Text(
                                 entry.key,
                                 style: GoogleFonts.poppins(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
                                   color: catColor,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: catColor.withOpacity(0.12),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Text(
+                                  '${entry.value.length}',
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 11,
+                                    color: catColor,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
                             ],
@@ -452,7 +589,7 @@ class _IngredientFilterSheetState extends State<_IngredientFilterSheet> {
                                     : _local.add(ing);
                               }),
                               child: AnimatedContainer(
-                                duration: const Duration(milliseconds: 180),
+                                duration: const Duration(milliseconds: 160),
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 14, vertical: 8),
                                 decoration: BoxDecoration(
@@ -477,12 +614,11 @@ class _IngredientFilterSheetState extends State<_IngredientFilterSheet> {
                                 child: Text(
                                   ing,
                                   style: GoogleFonts.poppins(
-                                    fontSize: 13,
+                                    fontSize: 12,
                                     fontWeight: isSelected
                                         ? FontWeight.w700
                                         : FontWeight.w500,
-                                    color:
-                                        isSelected ? Colors.white : catColor,
+                                    color: isSelected ? Colors.white : catColor,
                                   ),
                                 ),
                               ),
@@ -501,25 +637,40 @@ class _IngredientFilterSheetState extends State<_IngredientFilterSheet> {
                 child: SizedBox(
                   width: double.infinity,
                   height: 52,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      widget.onApply(_local);
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF2EC4B6),
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFFFF9F1C), Color(0xFFFF6B35)],
                       ),
-                      elevation: 4,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFFFF6B35).withOpacity(0.4),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        )
+                      ],
                     ),
-                    child: Text(
-                      _local.isEmpty
-                          ? 'Show All Recipes'
-                          : 'Apply ${_local.length} Filter${_local.length > 1 ? 's' : ''}',
-                      style: GoogleFonts.poppins(
-                          fontSize: 16, fontWeight: FontWeight.w700),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        widget.onApply(_local);
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.transparent,
+                        shadowColor: Colors.transparent,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      child: Text(
+                        _local.isEmpty
+                            ? 'Show All Recipes'
+                            : 'Apply ${_local.length} Filter${_local.length > 1 ? 's' : ''}',
+                        style: GoogleFonts.poppins(
+                            fontSize: 16, fontWeight: FontWeight.w700),
+                      ),
                     ),
                   ),
                 ),
@@ -532,80 +683,22 @@ class _IngredientFilterSheetState extends State<_IngredientFilterSheet> {
   }
 }
 
-// ─── Recipe Grid ──────────────────────────────────────────────────────────────
-class _RecipeGrid extends StatelessWidget {
-  final List<Recipe> recipes;
-  final _Baksha Function(Recipe) getCategoryOf;
-
-  const _RecipeGrid({required this.recipes, required this.getCategoryOf});
-
-  @override
-  Widget build(BuildContext context) {
-    if (recipes.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('🍽️', style: TextStyle(fontSize: 60)),
-            const SizedBox(height: 16),
-            Text(
-              'No recipes in this category yet',
-              style: GoogleFonts.poppins(fontSize: 15, color: Colors.grey[600]),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              'Add dishes to recipes.json with this panchabaksha tag',
-              style: GoogleFonts.poppins(fontSize: 12, color: Colors.grey[400]),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      );
-    }
-
-    return GridView.builder(
-      padding: const EdgeInsets.all(16),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 14,
-        mainAxisSpacing: 14,
-        childAspectRatio: 0.70,
-      ),
-      itemCount: recipes.length,
-      itemBuilder: (_, i) => _RecipeCard3D(
-        recipe: recipes[i],
-        category: getCategoryOf(recipes[i]),
-      ),
-    );
-  }
-}
-
-// ─── 3D Vibrant Recipe Card ───────────────────────────────────────────────────
-class _RecipeCard3D extends StatefulWidget {
+// ─── Recipe Card ──────────────────────────────────────────────────────────────
+class _RecipeCard extends StatefulWidget {
   final Recipe recipe;
   final _Baksha category;
-  const _RecipeCard3D({required this.recipe, required this.category});
+  const _RecipeCard({required this.recipe, required this.category});
 
   @override
-  State<_RecipeCard3D> createState() => _RecipeCard3DState();
+  State<_RecipeCard> createState() => _RecipeCardState();
 }
 
-class _RecipeCard3DState extends State<_RecipeCard3D> {
+class _RecipeCardState extends State<_RecipeCard> {
   bool _pressed = false;
-
-  // Each Panchabaksha category has its own gradient pair
-  static const Map<String, List<Color>> _catGradients = {
-    'baksham':  [Color(0xFFFF9F1C), Color(0xFFFF6B35)],
-    'bojyam':   [Color(0xFF2EC4B6), Color(0xFF0A9396)],
-    'choshyam': [Color(0xFF3A86FF), Color(0xFF0055CC)],
-    'lehyam':   [Color(0xFFFFBE0B), Color(0xFFFF9E00)],
-    'paaniyam': [Color(0xFF4CC9F0), Color(0xFF3A86FF)],
-  };
 
   @override
   Widget build(BuildContext context) {
-    final gradients = _catGradients[widget.recipe.panchabaksha] ??
-        [const Color(0xFF2EC4B6), const Color(0xFF0A9396)];
+    final cat = widget.category;
     final rasaColor = _rasaColors[widget.recipe.rasa] ?? const Color(0xFFFF6B35);
     final rasaName = _rasaLabel[widget.recipe.rasa] ?? widget.recipe.rasa;
 
@@ -623,24 +716,20 @@ class _RecipeCard3DState extends State<_RecipeCard3D> {
       onTapCancel: () => setState(() => _pressed = false),
       child: AnimatedScale(
         scale: _pressed ? 0.95 : 1.0,
-        duration: const Duration(milliseconds: 150),
+        duration: const Duration(milliseconds: 140),
         child: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: gradients,
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+            color: Colors.white,
             borderRadius: BorderRadius.circular(22),
             boxShadow: [
               BoxShadow(
-                color: gradients.first.withOpacity(0.5),
-                blurRadius: 18,
-                offset: const Offset(0, 8),
-                spreadRadius: 1,
+                color: cat.color.withOpacity(0.18),
+                blurRadius: 16,
+                offset: const Offset(0, 6),
+                spreadRadius: 0,
               ),
               BoxShadow(
-                color: Colors.black.withOpacity(0.08),
+                color: Colors.black.withOpacity(0.05),
                 blurRadius: 4,
                 offset: const Offset(0, 2),
               ),
@@ -649,14 +738,14 @@ class _RecipeCard3DState extends State<_RecipeCard3D> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Image section
+              // ── Image ──────────────────────────────────────────────
               Expanded(
-                flex: 3,
+                flex: 5,
                 child: Stack(
                   children: [
                     ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(22)),
+                      borderRadius:
+                          const BorderRadius.vertical(top: Radius.circular(22)),
                       child: Image.asset(
                         widget.recipe.image,
                         width: double.infinity,
@@ -664,44 +753,68 @@ class _RecipeCard3DState extends State<_RecipeCard3D> {
                         errorBuilder: (_, __, ___) => Container(
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
-                              colors: [
-                                gradients.first.withOpacity(0.3),
-                                gradients.last.withOpacity(0.15),
-                              ],
+                              colors: cat.gradient,
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
                             ),
+                            borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(22)),
                           ),
                           child: Center(
-                            child: Text(
-                              widget.category.emoji,
-                              style: const TextStyle(fontSize: 52),
-                            ),
+                            child: Text(cat.emoji,
+                                style: const TextStyle(fontSize: 52)),
                           ),
                         ),
                       ),
                     ),
-                    // Rasa taste badge (secondary info)
-                    if (rasaName.isNotEmpty)
-                      Positioned(
-                        top: 8,
-                        right: 8,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 7, vertical: 3),
-                          decoration: BoxDecoration(
-                            color: rasaColor.withOpacity(0.9),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Text(
-                            rasaName,
-                            style: GoogleFonts.poppins(
-                              fontSize: 9,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                            ),
+                    // Gradient overlay at bottom of image
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [
+                              Colors.black.withOpacity(0.5),
+                              Colors.transparent,
+                            ],
                           ),
                         ),
                       ),
-                    // Panchabaksha category badge bottom-left
+                    ),
+                    // Rasa badge
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: rasaColor,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: rasaColor.withOpacity(0.4),
+                              blurRadius: 6,
+                              offset: const Offset(0, 2),
+                            )
+                          ],
+                        ),
+                        child: Text(
+                          rasaName,
+                          style: GoogleFonts.poppins(
+                            fontSize: 9,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Panchabaksha badge bottom-left
                     Positioned(
                       bottom: 8,
                       left: 8,
@@ -709,11 +822,11 @@ class _RecipeCard3DState extends State<_RecipeCard3D> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 7, vertical: 3),
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.5),
+                          color: Colors.black.withOpacity(0.45),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
-                          '${widget.category.emoji} ${widget.category.label}',
+                          '${cat.emoji} ${cat.label}',
                           style: GoogleFonts.poppins(
                             fontSize: 9,
                             color: Colors.white,
@@ -725,11 +838,12 @@ class _RecipeCard3DState extends State<_RecipeCard3D> {
                   ],
                 ),
               ),
-              // Info section
+
+              // ── Info ───────────────────────────────────────────────
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
+                  padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -737,9 +851,9 @@ class _RecipeCard3DState extends State<_RecipeCard3D> {
                       Text(
                         widget.recipe.name,
                         style: GoogleFonts.poppins(
-                          fontSize: 16,
+                          fontSize: 14,
                           fontWeight: FontWeight.w800,
-                          color: Colors.white,
+                          color: const Color(0xFF1A1A1A),
                           height: 1.2,
                         ),
                         maxLines: 2,
@@ -747,19 +861,22 @@ class _RecipeCard3DState extends State<_RecipeCard3D> {
                       ),
                       Row(
                         children: [
-                          const Icon(Icons.location_on,
-                              size: 11, color: Colors.white70),
+                          Icon(Icons.location_on_rounded,
+                              size: 12, color: cat.color),
                           const SizedBox(width: 2),
                           Expanded(
                             child: Text(
                               widget.recipe.state,
                               style: GoogleFonts.poppins(
                                 fontSize: 11,
-                                color: Colors.white70,
+                                color: Colors.grey[600],
+                                fontWeight: FontWeight.w500,
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
+                          Icon(Icons.chevron_right_rounded,
+                              size: 16, color: Colors.grey[400]),
                         ],
                       ),
                     ],
@@ -768,6 +885,57 @@ class _RecipeCard3DState extends State<_RecipeCard3D> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Empty State ─────────────────────────────────────────────────────────────
+class _EmptyState extends StatelessWidget {
+  final String categoryKey;
+  const _EmptyState({required this.categoryKey});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                color: const Color(0xFFFF6B35).withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: const Center(
+                child: Text('🍽️', style: TextStyle(fontSize: 48)),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(
+              'No recipes here yet',
+              style: GoogleFonts.poppins(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF2D2D2D),
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              categoryKey == 'all'
+                  ? 'No recipes match your current filters'
+                  : 'Add dishes with this panchabaksha tag to recipes.json',
+              style: GoogleFonts.poppins(
+                fontSize: 13,
+                color: Colors.grey[500],
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );

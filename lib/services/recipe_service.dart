@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart';
@@ -7,19 +8,31 @@ import 'firestore_service.dart';
 class RecipeService {
   final FirestoreService _firestoreService = FirestoreService();
 
-  /// Returns recipes from Firestore (with JSON migration), falling back to local JSON.
+  /// Returns recipes from Firestore when available, otherwise falls back to
+  /// the local assets/recipes.json.  A 12-second overall timeout prevents
+  /// the app from hanging when Firebase is misconfigured or offline.
   Future<List<Recipe>> getRecipes() async {
     try {
-      await _firestoreService.migrateJsonToFirestore();
-      final firestoreRecipes = await _firestoreService.getRecipes();
+      final firestoreRecipes = await Future.any([
+        _loadFromFirestore(),
+        Future.delayed(
+          const Duration(seconds: 12),
+          () => <Recipe>[],
+        ),
+      ]);
       if (firestoreRecipes.isNotEmpty) {
-        debugPrint('Loaded ${firestoreRecipes.length} recipes from Firestore.');
         return firestoreRecipes;
       }
     } catch (e) {
-      debugPrint('Firestore unavailable, falling back to local JSON: $e');
+      debugPrint('RecipeService: Firestore path failed – $e');
     }
+    debugPrint('RecipeService: falling back to local JSON.');
     return _loadFromJson();
+  }
+
+  Future<List<Recipe>> _loadFromFirestore() async {
+    await _firestoreService.migrateJsonToFirestore();
+    return _firestoreService.getRecipes();
   }
 
   Future<List<Recipe>> _loadFromJson() async {
@@ -27,10 +40,10 @@ class RecipeService {
       final data = await rootBundle.loadString('assets/recipes.json');
       final List<dynamic> jsonList = json.decode(data);
       final recipes = jsonList.map((j) => Recipe.fromJson(j)).toList();
-      debugPrint('Loaded ${recipes.length} recipes from local JSON.');
+      debugPrint('RecipeService: loaded ${recipes.length} recipes from local JSON.');
       return recipes;
     } catch (e) {
-      debugPrint('Local JSON load failed: $e');
+      debugPrint('RecipeService: local JSON load failed – $e');
       return [];
     }
   }
