@@ -13,13 +13,10 @@ class RecipeService {
   /// the app from hanging when Firebase is misconfigured or offline.
   Future<List<Recipe>> getRecipes() async {
     try {
-      final firestoreRecipes = await Future.any([
-        _loadFromFirestore(),
-        Future.delayed(
-          const Duration(seconds: 12),
-          () => <Recipe>[],
-        ),
-      ]);
+      final firestoreRecipes = await _loadFromFirestore().timeout(
+        const Duration(seconds: 2),
+        onTimeout: () => <Recipe>[],
+      );
       if (firestoreRecipes.isNotEmpty) {
         return firestoreRecipes;
       }

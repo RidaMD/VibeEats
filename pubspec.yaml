@@ -39,6 +39,8 @@ dependencies:
   flutter_tts: ^4.2.5
   google_generative_ai: ^0.4.7
   google_fonts: ^6.2.1
+  flutter_map: ^7.0.2
+  latlong2: ^0.9.1
 
 dev_dependencies:
   flutter_test:
