@@ -41,6 +41,9 @@ dependencies:
   google_fonts: ^6.2.1
   flutter_map: ^7.0.2
   latlong2: ^0.9.1
+  http: ^1.6.0
+  audioplayers: ^6.6.0
+  flutter_dotenv: ^6.0.1
 
 dev_dependencies:
   flutter_test:
@@ -64,12 +67,12 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/background.jpg
     - assets/kanji.png
     - assets/kanji.jpg
     - assets/saktu.png
     - assets/placeholder.png
     - assets/recipes.json
+    - .env
 
   # To add assets to your application, add an assets section, like this:
   # assets:

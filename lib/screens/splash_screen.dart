@@ -39,8 +39,8 @@ class _SplashScreenState extends State<SplashScreen>
         Navigator.of(context).pushReplacement(
           PageRouteBuilder(
             transitionDuration: const Duration(milliseconds: 600),
-            pageBuilder: (_, __, ___) => const MainScreen(),
-            transitionsBuilder: (_, anim, __, child) =>
+            pageBuilder: (_, _, _) => const MainScreen(),
+            transitionsBuilder: (_, anim, _, child) =>
                 FadeTransition(opacity: anim, child: child),
           ),
         );
@@ -60,20 +60,32 @@ class _SplashScreenState extends State<SplashScreen>
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Background image
-          Image.asset(
-            'assets/background.jpg',
-            fit: BoxFit.cover,
+          // Warm beige-to-saffron gradient background
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFFF5E6C8), // warm wheat
+                  Color(0xFFEDD9A3), // golden beige
+                  Color(0xFFE8C07D), // saffron beige
+                  Color(0xFFD4956A), // warm terracotta
+                ],
+                stops: [0.0, 0.35, 0.65, 1.0],
+              ),
+            ),
           ),
-          // Dark overlay for readability
+          // Subtle texture overlay
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black.withOpacity(0.3),
-                  Colors.black.withOpacity(0.65),
+                  Colors.white.withValues(alpha: 0.15),
+                  Colors.transparent,
+                  Colors.black.withValues(alpha: 0.2),
                 ],
               ),
             ),
@@ -100,14 +112,14 @@ class _SplashScreenState extends State<SplashScreen>
                       height: 120,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.15),
+                        color: Colors.white.withValues(alpha: 0.15),
                         border: Border.all(
                           color: const Color(0xFFFFBE0B),
                           width: 3,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: const Color(0xFFFF6B35).withOpacity(0.5),
+                            color: const Color(0xFFFF6B35).withValues(alpha: 0.5),
                             blurRadius: 30,
                             spreadRadius: 5,
                           ),
@@ -130,7 +142,7 @@ class _SplashScreenState extends State<SplashScreen>
                         letterSpacing: 2,
                         shadows: [
                           Shadow(
-                            color: const Color(0xFFFF6B35).withOpacity(0.8),
+                            color: const Color(0xFFFF6B35).withValues(alpha: 0.8),
                             blurRadius: 20,
                           ),
                         ],
@@ -153,7 +165,7 @@ class _SplashScreenState extends State<SplashScreen>
                       height: 40,
                       child: CircularProgressIndicator(
                         strokeWidth: 3,
-                        color: const Color(0xFFFFBE0B).withOpacity(0.8),
+                        color: const Color(0xFFFFBE0B).withValues(alpha: 0.8),
                       ),
                     ),
                     const SizedBox(height: 16),

@@ -14,6 +14,13 @@ class AboutScreen extends StatelessWidget {
         backgroundColor: const Color(0xFF7209B7),
         foregroundColor: Colors.white,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Text('🍲', style: TextStyle(fontSize: 20)),
+            onPressed: () => Navigator.of(context).popUntil((route) => route.isFirst),
+            tooltip: 'Home',
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -33,7 +40,7 @@ class AboutScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(24),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF7209B7).withOpacity(0.3),
+                    color: const Color(0xFF7209B7).withValues(alpha: 0.3),
                     blurRadius: 20,
                     offset: const Offset(0, 8),
                   ),
@@ -133,7 +140,7 @@ class _Section extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),

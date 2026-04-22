@@ -134,6 +134,13 @@ class _SearchScreenState extends State<SearchScreen> {
         backgroundColor: const Color(0xFFFF9E00),
         foregroundColor: Colors.white,
         elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Text('🍲', style: TextStyle(fontSize: 20)),
+            onPressed: () => Navigator.of(context).popUntil((route) => route.isFirst),
+            tooltip: 'Home',
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -147,7 +154,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),
@@ -261,7 +268,7 @@ class _SearchResultCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: color.withOpacity(0.15),
+            color: color.withValues(alpha: 0.15),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -286,10 +293,10 @@ class _SearchResultCard extends StatelessWidget {
                 width: 100,
                 height: 100,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Container(
+                errorBuilder: (_, _, _) => Container(
                   width: 100,
                   height: 100,
-                  color: color.withOpacity(0.15),
+                  color: color.withValues(alpha: 0.15),
                   child: Icon(Icons.restaurant, color: color, size: 36),
                 ),
               ),
@@ -316,7 +323,7 @@ class _SearchResultCard extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 8, vertical: 3),
                           decoration: BoxDecoration(
-                            color: color.withOpacity(0.15),
+                            color: color.withValues(alpha: 0.15),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(

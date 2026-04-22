@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_tts/flutter_tts.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../models/recipe.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -13,12 +15,11 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  final FlutterTts flutterTts = FlutterTts();
+  final AudioPlayer _audioPlayer = AudioPlayer();
+  final TransformationController _transformationController = TransformationController();
+  
   bool isPlaying = false;
   bool isGenerating = false;
-
-  // TODO: Replace with your actual Gemini API key.
-  static const String geminiApiKey = 'YOUR_GEMINI_API_KEY';
 
   static const Map<String, Color> _rasaColors = {
     'madhura': Color(0xFFFFBE0B),
@@ -44,23 +45,59 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   void initState() {
     super.initState();
-    _initTts();
+    _audioPlayer.onPlayerStateChanged.listen((state) {
+      if (mounted) {
+        setState(() {
+          isPlaying = state == PlayerState.playing;
+        });
+      }
+    });
   }
 
-  Future<void> _initTts() async {
-    try {
-      await flutterTts.setLanguage("en-US");
-      await flutterTts.setSpeechRate(0.5);
-      await flutterTts.setVolume(1.0);
-      await flutterTts.setPitch(1.0);
-    } catch (e) {
-      debugPrint('TTS init error: $e');
+
+  void _zoomIn() {
+    final currentScale = _transformationController.value.getMaxScaleOnAxis();
+    final targetScale = (currentScale + 0.5).clamp(1.0, 4.0);
+    _applyZoom(targetScale);
+  }
+
+  void _zoomOut() {
+    final currentScale = _transformationController.value.getMaxScaleOnAxis();
+    final targetScale = (currentScale - 0.5).clamp(1.0, 4.0);
+    _applyZoom(targetScale);
+  }
+
+  void _handleDoubleTap() {
+    final currentScale = _transformationController.value.getMaxScaleOnAxis();
+    if (currentScale > 1.0) {
+      _applyZoom(1.0);
+    } else {
+      _applyZoom(2.0);
     }
+  }
+
+  void _applyZoom(double targetScale) {
+    final currentMatrix = _transformationController.value;
+    final currentScale = currentMatrix.getMaxScaleOnAxis();
+    if (currentScale == targetScale) return;
+
+    final double scaleFactor = targetScale / currentScale;
+
+    // Get the center of the viewport (approximate for the image container)
+    final Offset center = Offset(MediaQuery.of(context).size.width / 2, 140);
+    final Offset scenePoint = _transformationController.toScene(center);
+
+    final Matrix4 newMatrix = currentMatrix.clone()
+      ..translate(scenePoint.dx, scenePoint.dy)
+      ..scale(scaleFactor, scaleFactor, 1.0)
+      ..translate(-scenePoint.dx, -scenePoint.dy);
+
+    _transformationController.value = newMatrix;
   }
 
   Future<void> _speakRecipe() async {
     if (isPlaying) {
-      await flutterTts.stop();
+      await _audioPlayer.stop();
       setState(() => isPlaying = false);
       return;
     }
@@ -68,46 +105,53 @@ class _DetailScreenState extends State<DetailScreen> {
     setState(() => isGenerating = true);
 
     try {
-      final model = GenerativeModel(
-        model: 'gemini-1.5-flash',
-        apiKey: geminiApiKey,
+      final String token = dotenv.env['HF_API_KEY'] ?? '';
+      if (token.isEmpty) {
+        throw Exception("Hugging Face API Key is missing in .env");
+      }
+
+      final textToSpeak = "Here is the recipe for ${widget.recipe.name}. "
+          "It is a ${widget.recipe.dosha} balancing dish from ${widget.recipe.state}. "
+          "Ingredients include ${widget.recipe.ingredientsList.join(', ')}. "
+          "Preparation: ${widget.recipe.process.join('. ')}.";
+
+      // Using a fast TTS model suitable for English
+      final url = Uri.parse(
+          'https://api-inference.huggingface.co/models/facebook/mms-tts-eng');
+
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({"inputs": textToSpeak}),
       );
 
-      final prompt = '''
-You are a helpful and enthusiastic culinary assistant for an Ayurvedic food app called VibeEats.
-Read the following recipe naturally. Be conversational but cover all the details provided.
-
-Recipe Name: ${widget.recipe.name}
-Region: ${widget.recipe.state}
-Ayurvedic Rasa: ${_rasaLabel[widget.recipe.rasa] ?? widget.recipe.rasa}
-Ingredients: ${widget.recipe.ingredients.join(', ')}
-Preparation: ${widget.recipe.process.join('. ')}
-Health Benefits: ${widget.recipe.healthBenefits.join('. ')}
-Classical Reference: ${widget.recipe.classicalReference.join('. ')}
-Nutritional Analysis: ${widget.recipe.analysis.join(', ')}
-''';
-
-      final response = await model.generateContent([Content.text(prompt)]);
-      final textToSpeak =
-          response.text ?? "Sorry, I couldn't generate the audio script.";
-
-      setState(() {
-        isGenerating = false;
-        isPlaying = true;
-      });
-
-      await flutterTts.speak(textToSpeak);
-
-      flutterTts.setCompletionHandler(() {
-        if (mounted) setState(() => isPlaying = false);
-      });
+      if (response.statusCode == 200) {
+        final audioBytes = response.bodyBytes;
+        // On Web, using a data URI is often more reliable than BytesSource for some formats
+        final base64Audio = base64Encode(audioBytes);
+        final dataUri = 'data:audio/flac;base64,$base64Audio';
+        
+        await _audioPlayer.play(UrlSource(dataUri));
+        setState(() {
+          isGenerating = false;
+          isPlaying = true;
+        });
+      } else if (response.statusCode == 503) {
+        throw Exception("AI Voice Model is currently loading. Please try again in 15 seconds.");
+      } else {
+        throw Exception("API Error: ${response.statusCode} - ${response.body}");
+      }
     } catch (e) {
       if (mounted) setState(() => isGenerating = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error: $e — Add your Gemini API key in detail_screen.dart'),
+            content: Text('Audio Error: $e'),
             backgroundColor: Colors.red,
+            duration: const Duration(seconds: 5),
           ),
         );
       }
@@ -116,7 +160,8 @@ Nutritional Analysis: ${widget.recipe.analysis.join(', ')}
 
   @override
   void dispose() {
-    flutterTts.stop();
+    _audioPlayer.dispose();
+    _transformationController.dispose();
     super.dispose();
   }
 
@@ -137,18 +182,33 @@ Nutritional Analysis: ${widget.recipe.analysis.join(', ')}
         elevation: 0,
         actions: [
           IconButton(
-            icon: isGenerating
-                ? const SizedBox(
-                    width: 22,
-                    height: 22,
-                    child: CircularProgressIndicator(
-                        color: Colors.white, strokeWidth: 2.5),
-                  )
-                : Icon(isPlaying ? Icons.stop_circle : Icons.play_circle_fill),
-            onPressed: _speakRecipe,
-            tooltip: isPlaying ? 'Stop reading' : 'Read recipe aloud',
+            icon: const Text('🍲', style: TextStyle(fontSize: 20)),
+            onPressed: () => Navigator.of(context).popUntil((route) => route.isFirst),
+            tooltip: 'Home',
+          ),
+          IconButton(
+            icon: const Icon(Icons.share_rounded),
+            onPressed: () {},
+            tooltip: 'Share recipe',
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: isGenerating ? null : _speakRecipe,
+        backgroundColor: color,
+        foregroundColor: Colors.white,
+        icon: isGenerating
+            ? const SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                    color: Colors.white, strokeWidth: 2.5),
+              )
+            : Icon(isPlaying ? Icons.stop_rounded : Icons.volume_up_rounded),
+        label: Text(
+          isPlaying ? "Stop" : "Listen",
+          style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -157,22 +217,77 @@ Nutritional Analysis: ${widget.recipe.analysis.join(', ')}
             // Hero Image
             Stack(
               children: [
-                InteractiveViewer(
-                  panEnabled: true,
-                  boundaryMargin: const EdgeInsets.all(20),
-                  minScale: 1.0,
-                  maxScale: 4.0,
-                  child: Image.asset(
-                    widget.recipe.image,
-                    height: 240,
-                    width: double.infinity,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(
-                      height: 240,
-                      color: color.withOpacity(0.15),
-                      child: Center(
-                        child: Text('🍽️', style: const TextStyle(fontSize: 80)),
+                GestureDetector(
+                  onDoubleTap: _handleDoubleTap,
+                  child: InteractiveViewer(
+                    transformationController: _transformationController,
+                    panEnabled: true,
+                    minScale: 1.0,
+                    maxScale: 4.0,
+                    clipBehavior: Clip.hardEdge,
+                    child: Image.asset(
+                      widget.recipe.image,
+                      height: 280,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, _, _) => Container(
+                        height: 280,
+                        color: color.withValues(alpha: 0.15),
+                        child: const Center(
+                          child: Text('🍽️', style: TextStyle(fontSize: 80)),
+                        ),
                       ),
+                    ),
+                  ),
+                ),
+                // Elegant Glassmorphic Zoom Controls
+                Positioned(
+                  bottom: 20,
+                  right: 16,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: 0.4),
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.2),
+                          blurRadius: 8,
+                          offset: const Offset(0, 4),
+                        )
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius: const BorderRadius.horizontal(left: Radius.circular(30)),
+                            onTap: _zoomOut,
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                              child: Icon(Icons.remove, color: Colors.white, size: 20),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 1,
+                          height: 20,
+                          color: Colors.white.withValues(alpha: 0.3),
+                        ),
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            borderRadius: const BorderRadius.horizontal(right: Radius.circular(30)),
+                            onTap: _zoomIn,
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                              child: Icon(Icons.add, color: Colors.white, size: 20),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -183,12 +298,12 @@ Nutritional Analysis: ${widget.recipe.analysis.join(', ')}
                   right: 0,
                   child: Container(
                     height: 80,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.bottomCenter,
                         end: Alignment.topCenter,
                         colors: [
-                          const Color(0xFFFFF8F0),
+                          Color(0xFFFFF8F0),
                           Colors.transparent,
                         ],
                       ),
@@ -211,7 +326,7 @@ Nutritional Analysis: ${widget.recipe.analysis.join(', ')}
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
-                          color: color.withOpacity(0.35),
+                          color: color.withValues(alpha: 0.35),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         ),
@@ -325,7 +440,7 @@ class _CardList extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -345,7 +460,7 @@ class _CardList extends StatelessWidget {
                     width: 24,
                     height: 24,
                     decoration: BoxDecoration(
-                      color: color.withOpacity(0.15),
+                      color: color.withValues(alpha: 0.15),
                       shape: BoxShape.circle,
                     ),
                     child: Center(
@@ -407,7 +522,7 @@ class _AnalysisTable extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: color.withOpacity(0.1),
+            color: color.withValues(alpha: 0.1),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),

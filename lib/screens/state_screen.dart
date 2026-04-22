@@ -135,6 +135,14 @@ class _StateScreenState extends State<StateScreen>
                   backgroundColor: const Color(0xFF4361EE),
                   foregroundColor: Colors.white,
                   elevation: 0,
+                  actions: [
+                    IconButton(
+                      icon: const Text('🍲', style: TextStyle(fontSize: 20)),
+                      onPressed: () => Navigator.of(context).popUntil((route) => route.isFirst),
+                      tooltip: 'Home',
+                    ),
+                    const SizedBox(width: 8),
+                  ],
                   flexibleSpace: FlexibleSpaceBar(
                     background: Container(
                       decoration: const BoxDecoration(
@@ -178,7 +186,7 @@ class _StateScreenState extends State<StateScreen>
                       ),
                     ),
                     title: Text(
-                      'India Map',
+                      '',
                       style: GoogleFonts.poppins(
                           fontWeight: FontWeight.bold, fontSize: 18),
                     ),
@@ -221,7 +229,7 @@ class _StateScreenState extends State<StateScreen>
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withValues(alpha: 0.1),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         ),
@@ -299,7 +307,7 @@ class _StateScreenState extends State<StateScreen>
           height: 14,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: hasBorder ? Colors.transparent : color.withOpacity(0.6),
+            color: hasBorder ? Colors.transparent : color.withValues(alpha: 0.6),
             border: Border.all(
               color: hasBorder ? const Color(0xFFFFBE0B) : color,
               width: 2,
@@ -340,7 +348,7 @@ class _StateScreenState extends State<StateScreen>
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withValues(alpha: 0.06),
             blurRadius: 12,
             offset: const Offset(0, 4),
           )
@@ -392,7 +400,7 @@ class _StateScreenState extends State<StateScreen>
                       width: 36,
                       height: 36,
                       decoration: BoxDecoration(
-                        color: s.color.withOpacity(0.15),
+                        color: s.color.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Center(
@@ -419,7 +427,7 @@ class _StateScreenState extends State<StateScreen>
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(
-                        color: s.color.withOpacity(0.12),
+                        color: s.color.withValues(alpha: 0.12),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
@@ -468,13 +476,10 @@ class _StatePinWidgetState extends State<_StatePinWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final label = widget.state.abbr.isNotEmpty
-        ? widget.state.abbr
-        : widget.state.name.split(' ').first.substring(0, 2);
-
+    // Single vibrant color for all states with recipes
     final baseColor = widget.hasRecipes
-        ? widget.state.color
-        : widget.state.color.withOpacity(0.45);
+        ? const Color(0xFFFF6B35) // Vibrant Saffron
+        : const Color(0xFFFF6B35).withValues(alpha: 0.3);
 
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
@@ -489,18 +494,18 @@ class _StatePinWidgetState extends State<_StatePinWidget> {
             if (widget.hasRecipes)
               AnimatedBuilder(
                 animation: widget.pulseAnimation,
-                builder: (_, __) {
+                builder: (_, _) {
                   return Container(
-                    width: 48,
-                    height: 38,
+                    width: 56,
+                    height: 56,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: widget.state.color.withOpacity(
-                          0.15 * widget.pulseAnimation.value),
+                      shape: BoxShape.circle,
+                      color: baseColor.withValues(alpha: 
+                          0.2 * widget.pulseAnimation.value),
                       border: Border.all(
-                        color: widget.state.color.withOpacity(
-                            0.4 * widget.pulseAnimation.value),
-                        width: 1.5,
+                        color: baseColor.withValues(alpha: 
+                            0.5 * widget.pulseAnimation.value),
+                        width: 2.0,
                       ),
                     ),
                   );
@@ -508,43 +513,32 @@ class _StatePinWidgetState extends State<_StatePinWidget> {
               ),
             // Main pin
             AnimatedScale(
-              scale: _hovered || widget.isHighlighted ? 1.18 : 1.0,
+              scale: _hovered || widget.isHighlighted ? 1.25 : 1.0,
               duration: const Duration(milliseconds: 150),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 5),
+                width: widget.hasRecipes ? 36 : 24,
+                height: widget.hasRecipes ? 36 : 24,
                 decoration: BoxDecoration(
                   color: baseColor,
-                  borderRadius: BorderRadius.circular(10),
-                  border: widget.hasRecipes
-                      ? Border.all(
-                          color: const Color(0xFFFFD700), width: 1.5)
-                      : null,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white, 
+                    width: widget.hasRecipes ? 2.5 : 1.5,
+                  ),
                   boxShadow: [
                     BoxShadow(
-                      color: widget.state.color.withOpacity(0.5),
-                      blurRadius: 8,
-                      offset: const Offset(0, 3),
+                      color: baseColor.withValues(alpha: 0.6),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
                     ),
                   ],
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      label,
-                      style: GoogleFonts.poppins(
-                        color: Colors.white,
-                        fontSize: 8,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 0.2,
-                        height: 1.1,
-                      ),
-                    ),
-                    if (widget.hasRecipes)
-                      const Text('●',
-                          style: TextStyle(
-                              color: Color(0xFFFFD700), fontSize: 5, height: 1.0)),
-                  ],
+                child: Center(
+                  child: Icon(
+                    widget.hasRecipes ? Icons.restaurant_menu_rounded : Icons.circle,
+                    color: Colors.white,
+                    size: widget.hasRecipes ? 18 : 8,
+                  ),
                 ),
               ),
             ),
@@ -593,7 +587,7 @@ class _StateBottomSheet extends StatelessWidget {
                 const BorderRadius.vertical(top: Radius.circular(28)),
             boxShadow: [
               BoxShadow(
-                color: state.color.withOpacity(0.25),
+                color: state.color.withValues(alpha: 0.25),
                 blurRadius: 24,
                 offset: const Offset(0, -6),
               ),
@@ -623,7 +617,7 @@ class _StateBottomSheet extends StatelessWidget {
                         gradient: LinearGradient(
                           colors: [
                             state.color,
-                            state.color.withOpacity(0.7),
+                            state.color.withValues(alpha: 0.7),
                           ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
@@ -631,7 +625,7 @@ class _StateBottomSheet extends StatelessWidget {
                         borderRadius: BorderRadius.circular(14),
                         boxShadow: [
                           BoxShadow(
-                            color: state.color.withOpacity(0.4),
+                            color: state.color.withValues(alpha: 0.4),
                             blurRadius: 12,
                             offset: const Offset(0, 4),
                           )
@@ -722,7 +716,7 @@ class _StateBottomSheet extends StatelessWidget {
                               borderRadius: BorderRadius.circular(18),
                               boxShadow: [
                                 BoxShadow(
-                                  color: rasaColor.withOpacity(0.12),
+                                  color: rasaColor.withValues(alpha: 0.12),
                                   blurRadius: 10,
                                   offset: const Offset(0, 4),
                                 ),
@@ -752,11 +746,11 @@ class _StateBottomSheet extends StatelessWidget {
                                       width: 92,
                                       height: 92,
                                       fit: BoxFit.cover,
-                                      errorBuilder: (_, __, ___) => Container(
+                                      errorBuilder: (_, _, _) => Container(
                                         width: 92,
                                         height: 92,
                                         decoration: BoxDecoration(
-                                          color: rasaColor.withOpacity(0.12),
+                                          color: rasaColor.withValues(alpha: 0.12),
                                           borderRadius:
                                               const BorderRadius.only(
                                             topLeft: Radius.circular(18),
@@ -788,7 +782,7 @@ class _StateBottomSheet extends StatelessWidget {
                                                 horizontal: 9, vertical: 4),
                                             decoration: BoxDecoration(
                                               color:
-                                                  rasaColor.withOpacity(0.12),
+                                                  rasaColor.withValues(alpha: 0.12),
                                               borderRadius:
                                                   BorderRadius.circular(20),
                                             ),

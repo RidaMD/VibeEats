@@ -14,16 +14,31 @@ class MainScreen extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          // Background image with gradient overlay
-          Image.asset('assets/background.jpg', fit: BoxFit.cover),
+          // Warm beige gradient background
           Container(
             decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color(0xFFF5E6C8), // warm wheat
+                  Color(0xFFEDD9A3), // golden beige
+                  Color(0xFFE8C07D), // saffron beige
+                  Color(0xFFD4956A), // warm terracotta
+                ],
+                stops: [0.0, 0.35, 0.65, 1.0],
+              ),
+            ),
+          ),
+          // Subtle texture overlay
+          Container(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Color(0xCCFFF8F0),
-                  Color(0xF5FFF8F0),
+                  Colors.white.withValues(alpha: 0.4),
+                  Colors.white.withValues(alpha: 0.1),
                 ],
               ),
             ),
@@ -48,7 +63,7 @@ class MainScreen extends StatelessWidget {
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFFFF6B35).withOpacity(0.4),
+                          color: const Color(0xFFFF6B35).withValues(alpha: 0.4),
                           blurRadius: 20,
                           spreadRadius: 4,
                         ),
@@ -170,8 +185,8 @@ class MainScreen extends StatelessWidget {
   PageRoute _buildRoute(Widget page) {
     return PageRouteBuilder(
       transitionDuration: const Duration(milliseconds: 400),
-      pageBuilder: (_, __, ___) => page,
-      transitionsBuilder: (_, anim, __, child) => SlideTransition(
+      pageBuilder: (_, _, _) => page,
+      transitionsBuilder: (_, anim, _, child) => SlideTransition(
         position: Tween<Offset>(
           begin: const Offset(1, 0),
           end: Offset.zero,
@@ -226,7 +241,7 @@ class _NavCardState extends State<_NavCard> {
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: widget.gradient.first.withOpacity(0.4),
+                color: widget.gradient.first.withValues(alpha: 0.4),
                 blurRadius: 16,
                 offset: const Offset(0, 8),
                 spreadRadius: 1,
@@ -254,7 +269,7 @@ class _NavCardState extends State<_NavCard> {
                       widget.subtitle,
                       style: GoogleFonts.poppins(
                         fontSize: 12,
-                        color: Colors.white.withOpacity(0.85),
+                        color: Colors.white.withValues(alpha: 0.85),
                         height: 1.4,
                       ),
                     ),
@@ -289,7 +304,7 @@ class _RasaDot extends StatelessWidget {
             width: 36,
             height: 36,
             decoration: BoxDecoration(
-              color: color.withOpacity(0.15),
+              color: color.withValues(alpha: 0.15),
               shape: BoxShape.circle,
               border: Border.all(color: color, width: 2),
             ),
