@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import '../models/recipe.dart';
+import '../widgets/zoom_dialog.dart';
 
 class DetailScreen extends StatefulWidget {
   final Recipe recipe;
@@ -15,7 +13,7 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  final AudioPlayer _audioPlayer = AudioPlayer();
+  final FlutterTts _flutterTts = FlutterTts();
   final TransformationController _transformationController = TransformationController();
   
   bool isPlaying = false;
@@ -45,13 +43,13 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   void initState() {
     super.initState();
-    _audioPlayer.onPlayerStateChanged.listen((state) {
-      if (mounted) {
-        setState(() {
-          isPlaying = state == PlayerState.playing;
-        });
-      }
-    });
+    _initTts();
+  }
+
+  void _initTts() {
+    _flutterTts.setStartHandler(() => setState(() => isPlaying = true));
+    _flutterTts.setCompletionHandler(() => setState(() => isPlaying = false));
+    _flutterTts.setErrorHandler((msg) => setState(() => isPlaying = false));
   }
 
 
@@ -97,70 +95,45 @@ class _DetailScreenState extends State<DetailScreen> {
 
   Future<void> _speakRecipe() async {
     if (isPlaying) {
-      await _audioPlayer.stop();
-      setState(() => isPlaying = false);
+      await _flutterTts.stop();
+      if (mounted) setState(() => isPlaying = false);
       return;
     }
 
-    setState(() => isGenerating = true);
-
     try {
-      final String token = dotenv.env['HF_API_KEY'] ?? '';
-      if (token.isEmpty) {
-        throw Exception("Hugging Face API Key is missing in .env");
-      }
-
       final textToSpeak = "Here is the recipe for ${widget.recipe.name}. "
           "It is a ${widget.recipe.dosha} balancing dish from ${widget.recipe.state}. "
           "Ingredients include ${widget.recipe.ingredientsList.join(', ')}. "
           "Preparation: ${widget.recipe.process.join('. ')}.";
 
-      // Using a fast TTS model suitable for English
-      final url = Uri.parse(
-          'https://api-inference.huggingface.co/models/facebook/mms-tts-eng');
-
-      final response = await http.post(
-        url,
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode({"inputs": textToSpeak}),
-      );
-
-      if (response.statusCode == 200) {
-        final audioBytes = response.bodyBytes;
-        // On Web, using a data URI is often more reliable than BytesSource for some formats
-        final base64Audio = base64Encode(audioBytes);
-        final dataUri = 'data:audio/flac;base64,$base64Audio';
-        
-        await _audioPlayer.play(UrlSource(dataUri));
-        setState(() {
-          isGenerating = false;
-          isPlaying = true;
-        });
-      } else if (response.statusCode == 503) {
-        throw Exception("AI Voice Model is currently loading. Please try again in 15 seconds.");
-      } else {
-        throw Exception("API Error: ${response.statusCode} - ${response.body}");
-      }
+      // Web-specific settings
+      await _flutterTts.setLanguage("en-US");
+      await _flutterTts.setSpeechRate(0.8);
+      await _flutterTts.setVolume(1.0);
+      
+      await _flutterTts.speak(textToSpeak);
     } catch (e) {
-      if (mounted) setState(() => isGenerating = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Audio Error: $e'),
             backgroundColor: Colors.red,
-            duration: const Duration(seconds: 5),
           ),
         );
       }
     }
   }
 
+  void _showZoomDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => ZoomDialog(imagePath: widget.recipe.image),
+    );
+  }
+
   @override
   void dispose() {
-    _audioPlayer.dispose();
+    _flutterTts.stop();
     _transformationController.dispose();
     super.dispose();
   }
@@ -217,80 +190,33 @@ class _DetailScreenState extends State<DetailScreen> {
             // Hero Image
             Stack(
               children: [
-                GestureDetector(
-                  onDoubleTap: _handleDoubleTap,
-                  child: InteractiveViewer(
-                    transformationController: _transformationController,
-                    panEnabled: true,
-                    minScale: 1.0,
-                    maxScale: 4.0,
-                    clipBehavior: Clip.hardEdge,
-                    child: Image.asset(
-                      widget.recipe.image,
+            GestureDetector(
+              onTap: _showZoomDialog,
+              onDoubleTap: _handleDoubleTap,
+              child: Hero(
+                tag: widget.recipe.image,
+                child: InteractiveViewer(
+                  transformationController: _transformationController,
+                  panEnabled: true,
+                  minScale: 1.0,
+                  maxScale: 4.0,
+                  clipBehavior: Clip.hardEdge,
+                  child: Image.asset(
+                    widget.recipe.image,
+                    height: 280,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, _, _) => Container(
                       height: 280,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, _, _) => Container(
-                        height: 280,
-                        color: color.withValues(alpha: 0.15),
-                        child: const Center(
-                          child: Text('🍽️', style: TextStyle(fontSize: 80)),
-                        ),
+                      color: color.withValues(alpha: 0.15),
+                      child: const Center(
+                        child: Text('🍽️', style: TextStyle(fontSize: 80)),
                       ),
                     ),
                   ),
                 ),
-                // Elegant Glassmorphic Zoom Controls
-                Positioned(
-                  bottom: 20,
-                  right: 16,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.4),
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(color: Colors.white.withValues(alpha: 0.2)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.2),
-                          blurRadius: 8,
-                          offset: const Offset(0, 4),
-                        )
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            borderRadius: const BorderRadius.horizontal(left: Radius.circular(30)),
-                            onTap: _zoomOut,
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                              child: Icon(Icons.remove, color: Colors.white, size: 20),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 1,
-                          height: 20,
-                          color: Colors.white.withValues(alpha: 0.3),
-                        ),
-                        Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            borderRadius: const BorderRadius.horizontal(right: Radius.circular(30)),
-                            onTap: _zoomIn,
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                              child: Icon(Icons.add, color: Colors.white, size: 20),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+              ),
+            ),
                 // Gradient overlay at bottom of image
                 Positioned(
                   bottom: 0,
@@ -311,6 +237,20 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                 ),
               ],
+            ),
+            // Image Hint
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(
+                  "Click on the image to preview",
+                  style: GoogleFonts.poppins(
+                    fontSize: 12,
+                    color: Colors.grey[500],
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
             ),
 
             // Rasa + State badge row
@@ -364,6 +304,21 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
               ),
             ),
+            const SizedBox(height: 20),
+            // Recipe Description
+            if (widget.recipe.description.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  widget.recipe.description,
+                  style: GoogleFonts.poppins(
+                    fontSize: 15,
+                    color: Colors.grey[700],
+                    height: 1.6,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
+              ),
             const SizedBox(height: 20),
 
             // Sections

@@ -9,6 +9,7 @@
     "state": "Punjab",
     "prepTime": "15 mins",
     "dosha": "Kapha",
+    "description":"Kanji is a traditional Indian drink made from fermented black carrots. It is a rich source of probiotics, vitamins, and minerals. It is a cooling and refreshing drink that is perfect for summer.",
     "ingredientsList": [
       "Black Carrot",
       "Beetroot",
@@ -65,6 +66,7 @@
       "Cardamom",
       "Ghee"
     ],
+    "description":"Sattu is a traditional Indian drink made from roasted barley flour. It is a rich source of protein, fiber, and other essential nutrients. It is a cooling and refreshing drink that is perfect for summer.",
     "ingredients": [
       "2–3 tbsp roasted barley (Yava) flour",
       "1 glass Water or Milk (room temperature or lukewarm)",

@@ -1,5 +1,5 @@
 class Recipe {
-  final String id, name, image, type, rasa, panchabaksha, state;
+  final String id, name, image, type, rasa, panchabaksha, state, description;
   final String prepTime, dosha;
   final List<String> ingredients;
   final List<String> ingredientsList;
@@ -16,6 +16,7 @@ class Recipe {
         rasa = json['rasa'] ?? '',
         panchabaksha = json['panchabaksha'] ?? '',
         state = json['state'] ?? '',
+        description = json['description'] ?? '',
         prepTime = json['prepTime'] ?? '30 mins',
         dosha = json['dosha'] ?? 'Tridoshic',
         ingredients = List<String>.from(json['ingredients'] ?? []),
@@ -33,6 +34,7 @@ class Recipe {
         'rasa': rasa,
         'panchabaksha': panchabaksha,
         'state': state,
+        'description': description,
         'prepTime': prepTime,
         'dosha': dosha,
         'ingredients': ingredients,
