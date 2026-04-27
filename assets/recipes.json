@@ -1,15 +1,14 @@
 [
   {
     "id": "1",
-    "name": "Kanji",
-    "image": "assets/kanji.jpg",
-    "type": "drink",
+    "name": "Black Carrot Kanji",
+    "image": "assets/images/kanji.jpg",
     "rasa": "amla",
     "panchabaksha": "paaniyam",
     "state": "Punjab",
     "prepTime": "15 mins",
     "dosha": "Kapha",
-    "description":"Kanji is a traditional Indian drink made from fermented black carrots. It is a rich source of probiotics, vitamins, and minerals. It is a cooling and refreshing drink that is perfect for summer.",
+    "description": "Kanji is a refreshing fermented beverage made from carrots and beetroot, celebrated in North Indian cuisine. This tangy, pink drink is prepared by fermenting chopped carrots, beetroot, mustard seeds, and asafoetida in water, typically over 2–3 days. Kanji is traditionally enjoyed during winter and spring, especially during the festival of Holi. It is known for its probiotic-rich profile, aiding digestion and enhancing gut health. Furthermore, its ingredients provide essential vitamins and antioxidants. Served chilled, Kanji is often garnished with boondi (crisp gram flour pearls), making it both a healthful and flavorful addition to any meal.",
     "ingredientsList": [
       "Black Carrot",
       "Beetroot",
@@ -52,8 +51,7 @@
   {
     "id": "2",
     "name": "Saktu",
-    "image": "assets/saktu.png",
-    "type": "drink",
+    "image": "assets/images/saktu.png",
     "rasa": "madhura",
     "panchabaksha": "choshyam",
     "state": "Bihar",
@@ -66,7 +64,7 @@
       "Cardamom",
       "Ghee"
     ],
-    "description":"Sattu is a traditional Indian drink made from roasted barley flour. It is a rich source of protein, fiber, and other essential nutrients. It is a cooling and refreshing drink that is perfect for summer.",
+    "description": "Sattu is a traditional Indian drink made from roasted barley flour. It is a rich source of protein, fiber, and other essential nutrients. It is a cooling and refreshing drink that is perfect for summer.",
     "ingredients": [
       "2–3 tbsp roasted barley (Yava) flour",
       "1 glass Water or Milk (room temperature or lukewarm)",

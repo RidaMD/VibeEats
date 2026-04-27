@@ -67,12 +67,9 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/kanji.png
-    - assets/kanji.jpg
-    - assets/saktu.png
-    - assets/placeholder.png
-    - assets/recipes.json
     - assets/architecture.png
+    - assets/recipes.json
+    - assets/images/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
