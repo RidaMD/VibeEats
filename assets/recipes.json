@@ -1,0 +1,1170 @@
+[
+  {
+    "id": "1",
+    "name": "Black Carrot Kanji",
+    "image": "assets/images/kanji.jpg",
+    "rasa": "amla",
+    "panchabaksha": "paaniyam",
+    "state": "Punjab",
+    "prepTime": "15 mins",
+    "dosha": "pitt",
+    "description":"Kanji is a traditional Indian drink made from fermented black carrots. It is a rich source of probiotics, vitamins, and minerals. It is a cooling and refreshing drink that is perfect for summer.",
+    "ingredientsList": [
+      "Black Carrot",
+      "Beetroot",
+      "Mustard Seeds",
+      "Red Chili Powder"
+    ],
+    "ingredients": [
+      "500g Black Carrot (or 350 g Carrot + 150 g Beetroot as substitute)",
+      "1½ tsp Mustard Seeds",
+      "½ tsp Red Chili Powder",
+      "1 cup Water",
+      "Salt"
+    ],
+    "process": [
+      "Boil water and let it cool",
+      "Chop the black carrots into middle-sized pieces",
+      "Add chopped black carrots and mustard seeds to the jar",
+      "Add red chili powder and salt to the jar",
+      "Pour the cooled water into the jar and mix well",
+      "Let it ferment for 3 days",
+      "Serve chilled"
+    ],
+    "healthBenefits": [
+      "Improves digestion",
+      "Rich in probiotics",
+      "Boosts immunity"
+    ],
+    "classicalReference": [
+      "Fermented Preparations (Sandhana Kalpana) - Charaka Samhita",
+      "Probiotic Foods - Sushruta Samhita",
+      "Traditional Fermented Foods - Ashtanga Hridaya",
+      "Properties of Mustard (sarshala) - Charaka Samhita"
+    ],
+    "analysis": [
+      "Probiotics",
+      "Vitamin A",
+      "Iron"
+    ]
+  },
+
+  {
+    "id": "2",
+    "name": "Saktu",
+    "image": "assets/images/saktu.png",
+    "rasa": "madhura",
+    "panchabaksha": "paaniyam",
+    "state": "Bihar",
+    "prepTime": "10 mins",
+    "dosha": "kapha",
+    "ingredientsList": [
+      "Barley",
+      "Jaggery",
+      "Honey",
+      "Cardamom",
+      "Ghee"
+    ],
+    "description":"Sattu is a traditional Indian drink made from roasted barley flour. It is a rich source of protein, fiber, and other essential nutrients. It is a cooling and refreshing drink that is perfect for summer.",
+    "ingredients": [
+      "2–3 tbsp roasted barley (Yava) flour",
+      "1 glass Water or Milk (room temperature or lukewarm)",
+      "1–2 tsp Jaggery (Gur) or Honey (avoid honey if using hot milk)",
+      "A pinch of Cardamom (Elaichi) Powder",
+      "½ tsp Ghee (optional)"
+    ],
+    "process": [
+      "Place 2–3 tbsp of barley flour into a tall glass or deep bowl. Add only about 2 tablespoons of liquid first.",
+      "Mix the flour and small amount of liquid into a thick, smooth paste – this prevents lumps.",
+      "Add Jaggery and Cardamom powder. If using Ghee, add it now. Mix well.",
+      "Slowly pour in the rest of the water or milk. Whisk vigorously until frothy.",
+      "Note: If using Honey, add it last and only if the liquid is not hot.",
+      "Drink it immediately as barley will settle. Keep a spoon handy to stir while sipping.",
+      "Can be refrigerated and reheated gently."
+    ],
+    "healthBenefits": [
+      "Light and easy to digest",
+      "Improves strength and stamina",
+      "Cooling effect on the body",
+      "Useful for weight management",
+      "Handles excess kapha and pitta doshas",
+      "Sustains energy levels"
+    ],
+    "classicalReference": [
+      "Classification of foods - anna panavidhi - Charaka Samhita",
+      "Dietary Preparations including saktu - Sushruta Samhita"
+    ],
+    "analysis": [
+      "Protein",
+      "Probiotics",
+      "Calcium"
+    ]
+  },
+  {
+  "id": "3",
+  "name": "Gongura Pappu",
+  "image": "assets/images/gongura_pappu.jpeg",
+  "rasa": "amla",
+  "panchabaksha": "bhojyam",
+  "state": "Andhra Pradesh",
+  "prepTime": "30-35 mins",
+  "dosha": "pitta",
+  "ingredientsList": [
+    "Toor Dal",
+    "Gongura Leaves",
+    "Onion",
+    "Green Chilies",
+    "Tomato",
+    "Garlic",
+    "Turmeric",
+    "Salt",
+    "Oil","Ghee",
+    "Mustard Seeds",
+    "Cumin Seeds",
+    "Dry Red Chilies",
+    "Curry Leaves",
+    "Hing"
+  ],
+  "description": "A traditional Andhra Pradesh dal made with tangy gongura (sorrel leaves) and protein-rich toor dal. Known for its distinct sour taste and comforting nature, it is commonly served with hot rice and ghee as a staple meal.",
+  "ingredients": [
+    "1 cup toor dal",
+    "2 cups gongura leaves (washed, stems removed)",
+    "1 medium onion (chopped)",
+    "2-3 green chilies",
+    "1 tomato (optional)",
+    "3-4 garlic cloves",
+    "1/2 tsp turmeric",
+    "salt to taste",
+    "2 tbsp oil or ghee",
+    "1 tsp mustard seeds",
+    "1 tsp cumin seeds",
+    "3-4 dry red chilies",
+    "1 sprig curry leaves",
+    "pinch of hing"
+  ],
+  "process": [
+    "Wash and pressure cook toor dal with turmeric until soft, then mash it",
+    "Cook gongura leaves with green chilies until wilted and mash coarsely",
+    "Combine gongura with dal, add onion, tomato, and salt",
+    "Simmer the mixture for 5-7 minutes",
+    "Prepare tempering with mustard seeds, cumin seeds, garlic, red chilies, curry leaves, and hing",
+    "Pour tempering over the dal and mix well before serving"
+  ],
+  "healthBenefits": [
+    "Rich in iron and vitamin C from gongura",
+    "Provides plant-based protein from toor dal",
+    "Supports digestion due to sour (amla) taste",
+    "Helps improve appetite"
+  ],
+  "classicalReference": [
+    "Amla Rasa (Sour Taste) Properties - Charaka Samhita",
+    "Rasa-Dosha Relationship (Amla increases Pitta) - Charaka Samhita",
+    "Ahara Varga Classification (Bhojyam foods) - Charaka Samhita",
+    "Shimbi Dhanya (Legumes like Toor Dal) - Charaka Samhita"
+  ],
+  "analysis": [
+    "Carbohydrates",
+    "Fats",
+    "Protein",
+    "Vitamin C",
+    "Antioxidants",
+    "High fiber content"
+  ]
+  },
+  {
+  "id": "4",
+  "name": "Neem Flower Rasam",
+  "image": "assets/images/neem_flower_rasam.jpg",
+  "rasa": "kapha",
+  "panchabaksha": "choshyam",
+  "state": "Tamil Nadu",
+  "prepTime": "20-25 mins",
+  "dosha": "pitta",
+  "ingredientsList": [
+    "Neem Flowers",
+    "Tamarind",
+    "Jaggery",
+    "Black Pepper",
+    "Cumin Seeds",
+    "Mustard Seeds",
+    "Dry Red Chilies",
+    "Curry Leaves",
+    "Hing",
+    "Ghee",
+    "Salt"
+  ],
+  "description": "A traditional South Indian rasam made using neem flowers, known for its characteristic bitter taste. Commonly prepared during Tamil New Year, it symbolizes the acceptance of all flavors of life and supports digestion.",
+  "ingredients": [
+    "1 tbsp dried neem flowers",
+    "small lemon-sized tamarind (soaked and extracted)",
+    "1 tsp jaggery",
+    "1/2 tsp black pepper",
+    "1/2 tsp cumin seeds",
+    "1/2 tsp mustard seeds",
+    "1-2 dry red chilies",
+    "1 sprig curry leaves",
+    "pinch of hing",
+    "1 tsp ghee",
+    "salt to taste",
+    "2 cups water"
+  ],
+  "process": [
+    "Dry roast neem flowers in ghee until aromatic and slightly dark",
+    "Prepare tamarind extract and bring it to a boil",
+    "Add crushed pepper and cumin, salt, and jaggery",
+    "Simmer for 5-7 minutes",
+    "Add roasted neem flowers and cook briefly",
+    "Prepare tempering with mustard seeds, red chilies, curry leaves, and hing",
+    "Add tempering to rasam and serve hot"
+  ],
+  "healthBenefits": [
+    "Supports digestion and detoxification",
+    "Neem flowers have antimicrobial properties",
+    "Helps balance blood sugar levels",
+    "Improves appetite"
+  ],
+  "analysis": [
+    "Carbohydrates",
+    "Low fats",
+    "Minimal protein",
+    "Antioxidants",
+    "Digestive compounds",
+    "Low calorie"
+  ],
+  "classicalReference": [
+    "Tikta Rasa (Bitter Taste) Properties - Charaka Samhita",
+    "Rasa-Dosha Relationship (Tikta reduces Pitta and Kapha) - Charaka Samhita",
+    "Ahara Classification (Paaniyam - liquid foods) - Charaka Samhita",
+    "Krimighna (Antimicrobial properties of bitter substances) - Charaka Samhita"
+  ]
+},
+{
+  "id": "5",
+  "name": "Fara",
+  "image": "assets/images/fara.png",
+  "rasa": "madhura",
+  "panchabaksha": "bhojyam",
+  "state": "Uttar Pradesh",
+  "prepTime": "35-40 mins",
+  "dosha": "vata",
+  "ingredientsList": [
+    "rice flour",
+    "chana dal",
+    "garlic",
+    "green chilies",
+    "cumin seeds",
+    "salt"
+  ],
+  "description": "A traditional steamed dumpling from Uttar Pradesh made with rice flour and spiced lentil filling. It is light, nutritious, and easy to digest.",
+  "ingredients": [
+    "1 cup rice flour",
+    "1/2 cup soaked chana dal",
+    "2 garlic cloves",
+    "2 green chilies",
+    "1/2 tsp cumin seeds",
+    "salt to taste",
+    "water as needed"
+  ],
+  "process": [
+    "Prepare dough using rice flour and water",
+    "Grind soaked chana dal with spices",
+    "Shape dough into dumplings and fill with dal mixture",
+    "Steam for 20-25 minutes",
+    "Cool slightly and serve"
+  ],
+  "healthBenefits": [
+    "Easy to digest",
+    "Low in fat",
+    "Provides plant protein",
+    "Light and nourishing"
+  ],
+  "analysis": [
+    "Moderate carbohydrates",
+    "Low fats",
+    "Moderate protein",
+    "High fiber content",
+    "Digestive properties",
+    "Light food"
+  ],
+  "classicalReference": [
+    "Madhura Rasa Properties - Charaka Samhita",
+    "Ahara Classification (Bhojyam foods) - Charaka Samhita",
+    "Pathya Ahara (Light and digestible foods) - Charaka Samhita",
+    "Shimbi Dhanya (Legumes) - Charaka Samhita"
+  ]
+},
+{
+  "id": "6",
+  "name": "Kumari Kuber Paak",
+  "image": "assets/images/kumari_kuber_paak.png",
+  "rasa": "madhura",
+  "panchabaksha": "lehyam",
+  "state": "Gujarat",
+  "prepTime": "40-50 mins",
+  "dosha": "kapha",
+  "ingredientsList": [
+    "Aloe Vera Pulp",
+    "Ghee",
+    "Wheat Flour",
+    "Sugar",
+    "Cardamom",
+    "Nuts"
+  ],
+  "description": "A traditional Ayurvedic sweet made from aloe vera pulp, known for its rejuvenating and digestive properties. It is rich, nourishing, and often consumed in small quantities.",
+  "ingredients": [
+    "1 cup aloe vera pulp",
+    "1/2 cup wheat flour",
+    "1/2 cup sugar",
+    "1/4 cup ghee",
+    "1/2 tsp cardamom powder",
+    "chopped nuts"
+  ],
+  "process": [
+    "Extract and clean aloe vera pulp",
+    "Roast wheat flour in ghee until aromatic",
+    "Add aloe pulp and cook until moisture reduces",
+    "Add sugar and mix well",
+    "Cook until thick consistency forms",
+    "Add cardamom and nuts, then cool and serve"
+  ],
+  "healthBenefits": [
+    "Supports digestion",
+    "Improves skin health",
+    "Provides energy",
+    "Acts as a mild rejuvenator"
+  ],
+  "analysis": [
+    "High carbohydrates",
+    "High fats",
+    "Moderate protein",
+    "Antioxidants",
+    "Digestive compounds",
+    "Energy dense"
+  ],
+  "classicalReference": [
+    "Kumari (Aloe Vera) Properties - Charaka Samhita",
+    "Madhura Rasa (Sweet Taste) Properties - Charaka Samhita",
+    "Lehya Kalpana (Semi-solid preparations) - Charaka Samhita",
+    "Rasayana (Rejuvenative foods) - Charaka Samhita"
+  ]
+},
+{
+  "id": "7",
+  "name": "Lau Khar",
+  "image": "assets/images/lau_khar.png",
+  "rasa": "kashaya",
+  "panchabaksha": "bhojyam",
+  "state": "Assam",
+  "prepTime": "25-30 mins",
+  "dosha": "kapha",
+  "ingredientsList": [
+    "Bottle Gourd",
+    "Kola Khar",
+    "Mustard Oil",
+    "Green Chilies",
+    "Salt"
+  ],
+  "description": "A traditional Assamese dish made with bottle gourd and khar. Khar is an alkaline extract traditionally prepared from sun-dried banana peels and used in Assamese cuisine.. It is light, cleansing, and known for aiding digestion.",
+  "ingredients": [
+    "2 cups bottle gourd (chopped)",
+    "1 tsp kola khar",
+    "1 tbsp mustard oil",
+    "2 green chilies",
+    "salt to taste"
+  ],
+  "process": [
+    "Heat mustard oil in a pan",
+    "Add green chilies and sauté",
+    "Add bottle gourd and cook until soft",
+    "Add diluted kola khar and salt",
+    "Cook for a few minutes and serve"
+  ],
+  "healthBenefits": [
+    "Improves digestion",
+    "Detoxifying effect",
+    "Low calorie",
+    "Hydrating",
+    "Alkaline properties"
+  ],
+  "analysis": [
+    "Low carbohydrates",
+    "Low fats",
+    "Minimal protein",
+    "High water content",
+    "Digestive properties",
+    "Alkaline effect"
+  ],
+  "classicalReference": [
+    "Kashaya Rasa Properties - Charaka Samhita",
+    "Ahara Classification (Bhojyam foods) - Charaka Samhita",
+    "Pathya Ahara (Light and digestible foods) - Charaka Samhita",
+    "Vegetable-based diet benefits - Charaka Samhita"
+  ]
+},
+{
+  "id": "8",
+  "name": "Pathrode",
+  "image": "assets/images/pathrode.jpeg",
+  "rasa": "katu",
+  "panchabaksha": "bhojyam",
+  "state": "Karnataka",
+  "prepTime": "45-60 mins",
+  "dosha": "vata",
+  "ingredientsList": [
+    "Colocasia Leaves",
+    "Rice",
+    "Toor Dal",
+    "Tamarind",
+    "Red Chilies",
+    "Jaggery",
+    "spices"
+  ],
+  "description": "A traditional steamed dish made from colocasia leaves layered with a spiced rice and dal paste. It has a unique blend of flavors and is rich in nutrients.",
+  "ingredients": [
+    "6-8 colocasia leaves",
+    "1 cup rice",
+    "1/2 cup toor dal",
+    "small tamarind",
+    "4-5 red chilies",
+    "1 tsp jaggery",
+    "salt"
+  ],
+  "process": [
+    "Soak rice and dal, then grind with spices",
+    "Prepare a thick paste with tamarind and jaggery",
+    "Spread paste on colocasia leaves and layer them",
+    "Roll tightly and steam for 30-40 minutes",
+    "Cool, slice, and optionally shallow fry"
+  ],
+  "healthBenefits": [
+    "Rich in fiber",
+    "Provides plant protein",
+    "Supports digestion",
+    "Nutrient-dense"
+  ],
+  "analysis": [
+    "Moderate carbohydrates",
+    "Low fats",
+    "Moderate protein",
+    "High fiber content",
+    "Iron content",
+    "Antioxidants"
+  ],
+  "classicalReference": [
+    "Katu Rasa (Pungent Taste) Properties - Charaka Samhita",
+    "Rasa-Dosha Relationship (Katu increases Vata) - Charaka Samhita",
+    "Ahara Classification (Bhojyam foods) - Charaka Samhita",
+    "Shimbi Dhanya (Legumes) - Charaka Samhita"
+  ]
+},
+{
+  "id": "9",
+  "name": "Mandia Peja",
+  "image": "assets/images/mandia_peja.jpeg",
+  "rasa": "madhura",
+  "panchabaksha": "paaniyam",
+  "state": "Odisha",
+  "prepTime": "15-20 mins",
+  "dosha": "kapha",
+  "ingredientsList": [
+    "Ragi Flour",
+    "Water",
+    "Salt",
+    "Buttermilk"
+  ],
+  "description": "A traditional ragi-based porridge from Odisha, known for its cooling properties and high nutritional value. It is commonly consumed as a light, hydrating meal.",
+  "ingredients": [
+    "2 tbsp ragi flour",
+    "2 cups water",
+    "salt to taste",
+    "1/2 cup buttermilk (optional)"
+  ],
+  "process": [
+    "Mix ragi flour with water to avoid lumps",
+    "Cook on low flame, stirring continuously",
+    "Cook until thick and smooth",
+    "Add salt and cool slightly",
+    "Mix buttermilk if desired and serve"
+  ],
+  "healthBenefits": [
+    "Rich in calcium",
+    "Supports bone health",
+    "Cooling for the body",
+    "Easy to digest"
+  ],
+  "analysis": [
+    "Moderate carbohydrates",
+    "Low fats",
+    "Low protein",
+    "High calcium",
+    "High fiber content",
+    "Cooling properties"
+  ],
+  "classicalReference": [
+    "Madhura Rasa (Sweet Taste) Properties - Charaka Samhita",
+    "Ahara Classification (Paaniyam foods) - Charaka Samhita",
+    "Pathya Ahara (Light and nourishing foods) - Charaka Samhita",
+    "Dhanya Varga (Cereals like ragi) - Charaka Samhita"
+  ]
+},
+{
+  "id": "10",
+  "name": "Navara Rice Kanji",
+  "image": "assets/images/navara_kanji.png",
+  "rasa": "madhura",
+  "panchabaksha": "paaniyam",
+  "state": "Kerala",
+  "prepTime": "30-40 mins",
+  "dosha": "vata",
+  "ingredientsList": [
+    "Navara Rice",
+    "Water",
+    "Milk"
+  ],
+  "description": "A medicinal porridge from Kerala made using Navara rice, known in Ayurveda for its healing and strengthening properties. Often used in therapeutic diets.",
+  "ingredients": [
+    "1/2 cup navara rice",
+    "3 cups water",
+    "1/2 cup milk",
+    "optional herbs"
+  ],
+  "process": [
+    "Wash and cook navara rice in water until soft",
+    "Add milk and simmer further",
+    "Cook until porridge consistency is achieved",
+    "Serve warm"
+  ],
+  "healthBenefits": [
+    "Strengthens the body",
+    "Supports recovery and immunity",
+    "Easy to digest",
+    "Nourishing"
+  ],
+  "analysis": [
+    "Moderate carbohydrates",
+    "Low fats",
+    "Low protein",
+    "Energy boosting",
+    "Easily digestible",
+    "Rejuvenating properties"
+  ],
+  "classicalReference": [
+    "Madhura Rasa (Sweet Taste) Properties - Charaka Samhita",
+    "Brimhana (Nourishing foods) - Charaka Samhita",
+    "Ahara Classification (Paaniyam foods) - Charaka Samhita",
+    "Shashtika Shali (medicinal rice) - Charaka Samhita"
+  ]
+},
+{
+  "id": "11",
+  "name": "Alikamatsya",
+  "image": "assets/images/alikamatsya.jpg",
+  "rasa": "madhura",
+  "panchabaksha": "bakshyam",
+  "aaharaType": "Khadita",
+  "state": "Pan-Indian (Classical)",
+  "prepTime": "40-50 mins",
+  "dosha": "kapha",
+  "ingredientsList": [
+    "black gram (urad dal)",
+    "betel leaves (nagavalli)",
+    "sesame oil"
+  ],
+  "description": "Alikamatsya (Alikamaccha) is a traditional snack made from black gram dough, wrapped in betel leaves, steamed, and then fried. It is described in classical Ayurvedic texts under Bhakshya preparations and is considered nourishing but heavy.",
+  "ingredients": [
+    "1 cup black gram flour",
+    "betel leaves as required",
+    "sesame oil for frying",
+    "water as needed"
+  ],
+  "process": [
+    "Prepare a thick dough using black gram flour and water",
+    "Place portions of dough on betel leaves",
+    "Steam the wrapped dough over mild heat",
+    "Remove, cut into pieces",
+    "Deep fry in sesame oil until golden",
+    "Serve fresh"
+  ],
+  "healthBenefits": [
+    "Nourishes body tissues (Brimhana)",
+    "Strength promoting (Balya)",
+    "Improves appetite (Rochana)",
+    "Supports respiratory health"
+  ],
+  "analysis": [
+    "Moderate carbohydrates",
+    "High fats",
+    "Moderate protein",
+    "Energy dense",
+    "Heavy to digest",
+    "Strengthening properties"
+  ],
+  "classicalReference": [
+    "Bhavaprakasha Nighantu 11/66-67",
+    "Bhojana Kutuhalam (Siddhanna Prakarana – Bhakshya Vishesha)",
+    "Madhura Rasa Properties - Charaka Samhita",
+    "Guru and Ushna Guna - Charaka Samhita"
+  ]
+},
+
+{
+  "id": "12",
+  "name": "Mahua Flower Laddu",
+  "image": "assets/images/mahua_laddu.jpg",
+  "rasa": "madhura",
+  "panchabaksha": "bakshyam",
+  "state": "Chhattisgarh",
+  "prepTime": "30-40 mins",
+  "dosha": "kapha",
+  "ingredientsList": [
+    "Mahua Flowers",
+    "Ghee",
+    "Flour",
+    "Jaggery",
+    "Nuts"
+  ],
+  "description": "A traditional tribal sweet made from dried mahua flowers, valued for its natural sweetness and energy-boosting properties.",
+  "ingredients": [
+    "1 cup dried mahua flowers",
+    "1/2 cup flour",
+    "1/2 cup jaggery",
+    "1/4 cup ghee",
+    "chopped nuts"
+  ],
+  "process": [
+    "Clean and lightly roast mahua flowers",
+    "Roast flour in ghee",
+    "Mix mahua, jaggery, and flour",
+    "Shape into laddus",
+    "Cool and serve"
+  ],
+  "healthBenefits": [
+    "Provides natural energy",
+    "Rich in antioxidants",
+    "Supports digestion",
+    "Nutrient-dense"
+  ],
+  "analysis": [
+    "High carbohydrates",
+    "High fats",
+    "Low protein",
+    "Energy dense",
+    "Antioxidants",
+    "Natural sugars"
+  ],
+  "classicalReference": [
+    "Madhura Rasa (Sweet Taste) Properties - Charaka Samhita",
+    "Ahara Classification (Bakshyam foods) - Charaka Samhita",
+    "Brimhana (Nourishing foods) - Charaka Samhita",
+    "Phala Varga (Flower-based foods) - Charaka Samhita"
+  ]
+},
+{
+  "id": "13",
+  "name": "Nimona",
+  "image": "assets/images/nimona.jpg",
+  "rasa": "kashaya",
+  "panchabaksha": "bhojyam",
+  "state": "Uttar Pradesh",
+  "prepTime": "30-35 mins",
+  "dosha": "kapha",
+  "ingredientsList": [
+    "green peas",
+    "potato",
+    "tomato",
+    "garlic",
+    "green chilies",
+    "spices",
+    "oil"
+  ],
+  "description": "A traditional winter dish from Uttar Pradesh made with crushed green peas, offering a unique texture and rich flavor.",
+  "ingredients": [
+    "1 cup green peas",
+    "1 potato",
+    "1 tomato",
+    "2 garlic cloves",
+    "2 green chilies",
+    "spices",
+    "1 tbsp oil",
+    "salt to taste"
+  ],
+  "process": [
+    "Coarsely grind green peas",
+    "Heat oil and sauté spices and garlic",
+    "Add tomato and cook",
+    "Add peas and potato",
+    "Cook until soft and well combined",
+    "Serve hot"
+  ],
+  "healthBenefits": [
+    "Rich in plant protein",
+    "Supports digestion",
+    "Provides energy",
+    "Nutrient-dense"
+  ],
+  "analysis": [
+    "Moderate carbohydrates",
+    "Low fats",
+    "Moderate protein",
+    "High fiber content",
+    "Vitamins and minerals",
+    "Digestive properties"
+  ],
+  "classicalReference": [
+    "Kashaya Rasa Properties - Charaka Samhita",
+    "Ahara Classification (Bhojyam foods) - Charaka Samhita",
+    "Shimbi Dhanya (Legumes) - Charaka Samhita",
+    "Pathya Ahara - Charaka Samhita"
+  ]
+},
+{
+  "id": "14",
+  "name": "Tangedu Flower Rasam",
+  "image": "assets/images/tangedu_rasam.jpg",
+  "rasa": "kashaya",
+  "panchabaksha": "paaniyam",
+  "state": "Telangana",
+  "prepTime": "20-25 mins",
+  "dosha": "kapha",
+  "ingredientsList": [
+    "Tangedu Flowers",
+    "Tamarind",
+    "Pepper",
+    "Cumin",
+    "Mustard Seeds",
+    "Curry Leaves",
+    "Hing"
+  ],
+  "description": "A traditional rasam made from tangedu flowers, commonly associated with regional festivals and known for its medicinal properties.",
+  "ingredients": [
+    "1 tbsp tangedu flowers",
+    "small tamarind extract",
+    "1/2 tsp pepper",
+    "1/2 tsp cumin",
+    "mustard seeds",
+    "curry leaves",
+    "hing",
+    "salt"
+  ],
+  "process": [
+    "Boil tamarind extract with spices",
+    "Add cleaned tangedu flowers",
+    "Simmer briefly",
+    "Prepare tempering and add",
+    "Serve hot"
+  ],
+  "healthBenefits": [
+    "Supports digestion",
+    "Rich in plant compounds",
+    "Traditional medicinal use",
+    "Light and easy to digest"
+  ],
+  "analysis": [
+    "Low carbohydrates",
+    "Low fats",
+    "Minimal protein",
+    "Antioxidants",
+    "Digestive compounds",
+    "Light food"
+  ],
+  "classicalReference": [
+    "Kashaya Rasa Properties - Charaka Samhita",
+    "Rasa-Dosha Relationship (Kashaya reduces Kapha) - Charaka Samhita",
+    "Ahara Classification (Paaniyam foods) - Charaka Samhita",
+    "Herbal preparations - Charaka Samhita"
+  ]
+},
+{
+  "id": "15",
+  "name": "Tikhur Kheer",
+  "image": "assets/images/tikhur_kheer.jpg",
+  "rasa": "madhura",
+  "panchabaksha": "bhojyam",
+  "state": "Chhattisgarh",
+  "prepTime": "25-30 mins",
+  "dosha": "pitta",
+  "ingredientsList": [
+    "tikhur (arrowroot powder)",
+    "milk",
+    "sugar",
+    "cardamom",
+    "nuts"
+  ],
+  "description": "A cooling dessert made from arrowroot powder, popular in central India. It is light, soothing, and easy to digest.",
+  "ingredients": [
+    "2 tbsp tikhur powder",
+    "2 cups milk",
+    "1/4 cup sugar",
+    "1/2 tsp cardamom",
+    "nuts"
+  ],
+  "process": [
+    "Mix tikhur powder with a little water to avoid lumps",
+    "Heat milk and add the mixture",
+    "Cook while stirring until thick",
+    "Add sugar and cardamom",
+    "Garnish with nuts and serve"
+  ],
+  "healthBenefits": [
+    "Cooling for the body",
+    "Easy to digest",
+    "Provides quick energy",
+    "Suitable during illness recovery"
+  ],
+  "analysis": [
+    "High carbohydrates",
+    "Low fats",
+    "Low protein",
+    "Cooling properties",
+    "Easy digestion",
+    "Energy boosting"
+  ],
+  "classicalReference": [
+    "Madhura Rasa (Sweet Taste) Properties - Charaka Samhita",
+    "Pitta pacifying foods - Charaka Samhita",
+    "Ahara Classification (Bhojyam foods) - Charaka Samhita",
+    "Starchy foods digestibility - Charaka Samhita"
+  ]
+},
+{
+  "id": "16",
+  "name": "Tungrymbai",
+  "image": "assets/images/tungrymbai.jpg",
+  "rasa": "katu",
+  "panchabaksha": "bhojyam",
+  "state": "Meghalaya",
+  "prepTime": "30-40 mins",
+  "dosha": "pitta",
+  "ingredientsList": [
+    "fermented soybeans",
+    "onion",
+    "ginger",
+    "garlic",
+    "green chilies",
+    "mustard oil"
+  ],
+  "description": "A traditional Khasi dish made from fermented soybeans, known for its strong aroma and rich flavor. It is often cooked with spices and sometimes meat, making it a protein-rich and culturally significant preparation.",
+  "ingredients": [
+    "2 cups fermented soybeans",
+    "1 onion (chopped)",
+    "1 inch ginger",
+    "3-4 garlic cloves",
+    "2 green chilies",
+    "1 tbsp mustard oil",
+    "salt to taste"
+  ],
+  "process": [
+    "Heat mustard oil in a pan",
+    "Add chopped onion, ginger, garlic, and chilies",
+    "Sauté until aromatic",
+    "Add fermented soybeans and mix well",
+    "Cook on low flame for 10-15 minutes",
+    "Serve hot"
+  ],
+  "healthBenefits": [
+    "Rich in plant protein",
+    "Supports gut health due to fermentation",
+    "Improves digestion",
+    "Provides essential nutrients"
+  ],
+  "analysis": [
+    "moderate carbohydrates",
+    "low fats",
+    "high protein",
+    "probiotics",
+    "high fiber content",
+    "nutrient dense"
+  ],
+  "classicalReference": [
+    "Katu Rasa (Pungent Taste) Properties - Charaka Samhita",
+    "Rasa-Dosha Relationship (Katu increases Pitta) - Charaka Samhita",
+    "Ahara Classification (Bhojyam foods) - Charaka Samhita",
+    "Fermented food concepts (Sandhana Kalpana) - Charaka Samhita"
+  ]
+},
+{
+  "id": "17",
+  "name": "Iromba",
+  "image": "assets/images/iromba.jpg",
+  "rasa": "katu",
+  "panchabaksha": "bhojyam",
+  "state": "Manipur",
+  "prepTime": "25-30 mins",
+  "dosha": "pitta",
+  "ingredientsList": [
+    "fermented fish",
+    "boiled vegetables",
+    "red chilies",
+    "salt"
+  ],
+  "description": "A traditional Manipuri dish made by mashing boiled vegetables with fermented fish and chilies. It has a strong flavor and is a staple in local cuisine.",
+  "ingredients": [
+    "1 cup mixed vegetables (potato, yam, beans)",
+    "2 tbsp fermented fish",
+    "3-4 red chilies",
+    "salt to taste"
+  ],
+  "process": [
+    "Boil vegetables until soft",
+    "Roast or boil chilies",
+    "Mash vegetables, chilies, and fermented fish together",
+    "Add salt and mix thoroughly",
+    "Serve fresh"
+  ],
+  "healthBenefits": [
+    "Rich in minerals and nutrients",
+    "Supports digestion",
+    "Provides probiotics from fermented fish",
+    "Boosts appetite"
+  ],
+  "analysis": [
+    "moderate carbohydrates",
+    "low fats",
+    "moderate protein",
+    "probiotics",
+    "high fiber content",
+    "nutrient rich"
+  ],
+  "classicalReference": [
+    "Katu Rasa Properties - Charaka Samhita",
+    "Rasa-Dosha Relationship (Katu increases Pitta) - Charaka Samhita",
+    "Ahara Classification (Bhojyam foods) - Charaka Samhita",
+    "Fermented food concepts - Charaka Samhita"
+  ]
+},
+{
+  "id": "18",
+  "name": "Bai",
+  "image": "assets/images/bai.jpg",
+  "rasa": "kashaya",
+  "panchabaksha": "bhojyam",
+  "state": "Mizoram",
+  "prepTime": "25-30 mins",
+  "dosha": "kapha",
+  "ingredientsList": [
+    "mixed vegetables",
+    "bamboo shoots",
+    "green chilies",
+    "local herbs",
+    "salt"
+  ],
+  "description": "A traditional Mizo dish made with boiled vegetables and bamboo shoots. It is mild, nutritious, and reflects the simplicity of local cuisine.",
+  "ingredients": [
+    "1 cup mixed vegetables",
+    "1/2 cup bamboo shoots",
+    "2 green chilies",
+    "local herbs (optional)",
+    "salt to taste",
+    "water as needed"
+  ],
+  "process": [
+    "Boil vegetables and bamboo shoots together",
+    "Add chilies and herbs",
+    "Cook until soft",
+    "Add salt and simmer briefly",
+    "Serve warm"
+  ],
+  "healthBenefits": [
+    "Rich in fiber",
+    "Supports digestion",
+    "Low in fat",
+    "Hydrating and light"
+  ],
+  "analysis": [
+    "low carbohydrates",
+    "low fats",
+    "low protein",
+    "high fiber content",
+    "vitamins and minerals",
+    "light food"
+  ],
+  "classicalReference": [
+    "Kashaya Rasa Properties - Charaka Samhita",
+    "Rasa-Dosha Relationship (Kashaya reduces Kapha) - Charaka Samhita",
+    "Ahara Classification (Bhojyam foods) - Charaka Samhita",
+    "Pathya Ahara (Light diet) - Charaka Samhita"
+  ]
+},
+{
+  "id": "19",
+  "name": "Chainsoo",
+  "image": "assets/images/chainsoo.jpg",
+  "rasa": "katu",
+  "panchabaksha": "bhojyam",
+  "state": "Uttarakhand",
+  "prepTime": "35-40 mins",
+  "dosha": "kapha",
+  "ingredientsList": [
+    "black gram (urad dal)",
+    "garlic",
+    "onion",
+    "cumin seeds",
+    "coriander powder",
+    "turmeric",
+    "ghee",
+    "salt"
+  ],
+  "description": "A traditional Garhwali dish made from roasted black gram, known for its deep flavor and rich texture. The roasting process gives it a unique taste and makes it distinct from regular dals.",
+  "ingredients": [
+    "1 cup black gram (urad dal)",
+    "1 onion (chopped)",
+    "3-4 garlic cloves",
+    "1 tsp cumin seeds",
+    "1/2 tsp turmeric",
+    "1 tsp coriander powder",
+    "1 tbsp ghee",
+    "salt to taste",
+    "water as needed"
+  ],
+  "process": [
+    "Dry roast black gram until aromatic",
+    "Grind into a coarse powder",
+    "Heat ghee and add cumin seeds",
+    "Add onion and garlic, sauté until golden",
+    "Add spices and roasted dal powder",
+    "Add water and cook until thick consistency",
+    "Simmer and serve hot"
+  ],
+  "healthBenefits": [
+    "Rich in protein",
+    "Provides sustained energy",
+    "Supports muscle strength",
+    "Nourishing and filling"
+  ],
+  "analysis": [
+    "moderate carbohydrates",
+    "moderate fats",
+    "high protein",
+    "high fiber content",
+    "energy dense",
+    "nutrient rich"
+  ],
+  "classicalReference": [
+    "Katu Rasa Properties - Charaka Samhita",
+    "Ahara Classification (Bhojyam foods) - Charaka Samhita",
+    "Shimbi Dhanya (Legumes like black gram) - Charaka Samhita",
+    "Guru Guna (Heavy foods) - Charaka Samhita"
+  ]
+},
+{
+  "id": "19",
+  "name": "Khatta Meat",
+  "image": "assets/images/khatta_meat.jpg",
+  "rasa": "amla",
+  "panchabaksha": "bhojyam",
+  "state": "Himachal Pradesh",
+  "prepTime": "45-60 mins",
+  "dosha": "pitta",
+  "ingredientsList": [
+    "mutton",
+    "dried pomegranate seeds (anardana)",
+    "onion",
+    "garlic",
+    "ginger",
+    "spices",
+    "mustard oil",
+    "salt"
+  ],
+  "description": "A traditional Himachali dish made with mutton cooked in a tangy gravy using dried pomegranate seeds. It is known for its distinctive sour flavor and rich taste.",
+  "ingredients": [
+    "500g mutton",
+    "2 tbsp dried pomegranate seeds (anardana)",
+    "1 onion (chopped)",
+    "1 inch ginger",
+    "4-5 garlic cloves",
+    "spices as required",
+    "2 tbsp mustard oil",
+    "salt to taste",
+    "water as needed"
+  ],
+  "process": [
+    "Heat mustard oil in a pan",
+    "Add onion, garlic, and ginger, sauté well",
+    "Add mutton and cook until browned",
+    "Add spices and crushed anardana",
+    "Add water and cook until tender",
+    "Simmer until thick gravy forms",
+    "Serve hot"
+  ],
+  "healthBenefits": [
+    "Rich in protein and iron",
+    "Improves strength",
+    "Supports energy levels",
+    "Enhances appetite"
+  ],
+  "analysis": [
+    "low carbohydrates",
+    "moderate fats",
+    "high protein",
+    "iron rich",
+    "energy dense",
+    "nutrient rich"
+  ],
+  "classicalReference": [
+    "Amla Rasa (Sour Taste) Properties - Charaka Samhita",
+    "Rasa-Dosha Relationship (Amla increases Pitta) - Charaka Samhita",
+    "Ahara Classification (Bhojyam foods) - Charaka Samhita",
+    "Mamsa Varga (Meat preparations) - Charaka Samhita"
+  ]
+},{
+  "id": "21",
+  "name": "Bhutte Ka Kees",
+  "image": "assets/images/bhutte_ka_kees.jpg",
+  "rasa": "madhura",
+  "panchabaksha": "bhojyam",
+  "state": "Madhya Pradesh",
+  "prepTime": "25-30 mins",
+  "dosha": "kapha",
+  "ingredientsList": [
+    "grated corn",
+    "milk",
+    "green chilies",
+    "mustard seeds",
+    "turmeric",
+    "hing",
+    "ghee",
+    "salt"
+  ],
+  "description": "A traditional dish from Madhya Pradesh made using grated corn cooked with milk and mild spices. It has a soft texture and a naturally sweet taste, making it unique among Indian preparations.",
+  "ingredients": [
+    "2 cups grated corn",
+    "1/2 cup milk",
+    "2 green chilies",
+    "1/2 tsp mustard seeds",
+    "1/4 tsp turmeric",
+    "pinch of hing",
+    "1 tbsp ghee",
+    "salt to taste"
+  ],
+  "process": [
+    "Heat ghee in a pan and add mustard seeds",
+    "Add hing and green chilies",
+    "Add grated corn and sauté",
+    "Add milk, turmeric, and salt",
+    "Cook on low flame until soft and slightly thick",
+    "Stir continuously to avoid sticking",
+    "Serve warm"
+  ],
+  "healthBenefits": [
+    "Provides natural energy",
+    "Rich in fiber",
+    "Supports digestion",
+    "Light and nourishing"
+  ],
+  "analysis": [
+    "moderate carbohydrates",
+    "low fats",
+    "low protein",
+    "high fiber content",
+    "vitamins and minerals",
+    "light food"
+  ],
+  "classicalReference": [
+    "Madhura Rasa (Sweet Taste) Properties - Charaka Samhita",
+    "Ahara Classification (Bhojyam foods) - Charaka Samhita",
+    "Pathya Ahara (Light and nourishing foods) - Charaka Samhita",
+    "Dhanya Varga (Cereals like corn) - Charaka Samhita"
+  ]
+}
+
+]
